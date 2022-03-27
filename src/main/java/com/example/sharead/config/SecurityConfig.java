@@ -50,12 +50,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().
-            authorizeRequests().antMatchers("/auth","/books", "/books/{id}").permitAll().
-
+            authorizeRequests().
+//antMatchers("/**").permitAll(). отключить проверку токена
             anyRequest().authenticated().and().
                 exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement().
                 sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-      //  http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

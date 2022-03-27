@@ -1,5 +1,6 @@
 package com.example.sharead.controller;
 
+import com.example.sharead.domain.Users;
 import com.example.sharead.jwt.JwtRequest;
 import com.example.sharead.jwt.JwtResponse;
 import com.example.sharead.jwt.JwtTokenGenerator;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,4 +58,9 @@ public class JwtAuthController {
 
     }
 
+    @PostMapping(value = "/register")
+    public ResponseEntity<?> register(@RequestBody Users user){
+        userService.saveUser(user);
+        return ResponseEntity.ok(user);
+    }
 }
