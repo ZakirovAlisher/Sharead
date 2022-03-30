@@ -1,27 +1,29 @@
 package com.example.sharead.service;
 
+
 import com.example.sharead.domain.Roles;
 import com.example.sharead.domain.Users;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
-
-
-    boolean saveUser(Users user);
-    Users getUserByE(String id);
-
-
-    List<Users> AdmGetAllUsers();
-    Users AdmAddUser(Users item);
-    Users AdmGetUser(Long id);
-    Users AdmSaveUser(Users item);
-    void AdmDeleteUser(Users item);
-
-    List<Roles> getAllRoles();
+    Users getUserByEmail(String email);
+    List<Users> getAllUsers( );
+    Users addUser(Users b);
+    Users getUser(Long id);
     Roles getRole(Long id);
+    Users saveUser(Users item);
 
 
-    Users AdmSaveUserInfo(Users item);
+    List<Roles> getAllRoles( );
+    Roles addRole(Roles b);
+
+    Roles saveRole(Roles item);
+
+
+    void deleteUser(Users user);
+
+
 }

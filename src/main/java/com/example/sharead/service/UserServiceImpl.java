@@ -2,16 +2,14 @@ package com.example.sharead.service;
 
 import com.example.sharead.domain.Roles;
 import com.example.sharead.domain.Users;
-import com.example.sharead.repository.RolesRepository;
+import com.example.sharead.repository.RoleRepository;
 import com.example.sharead.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,90 +19,66 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private RolesRepository rolesRepository;
+    private RoleRepository roleRepository;
+
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Users user = userRepository.findByEmail(s);
-        if(user!=null){
-            return user;
-        }else{
-            throw new UsernameNotFoundException("USER NOT FOUND");
+        Users myUser = userRepository.findByEmail(s);
+        if(myUser != null){
+            User secUser = new User(myUser.getEmail(), myUser.getPassword(), myUser.getRoles());
+            return secUser;
         }
-
-    }
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    public boolean saveUser(Users user) {
-        Users userFromDB = userRepository.findByEmail(user.getUsername());
-
-        if (userFromDB != null) {
-            return false;
-        }
-        List<Roles> roles = new ArrayList<> ();
-        roles.add(new Roles(2L, "ROLE_USER"));
-        user.setRoles(roles);
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return true;
+        throw new UsernameNotFoundException("USER NOT FOUND");
     }
 
     @Override
-    public Users getUserByE(String id) {
-        return userRepository.findByEmail (id);
+    public Users getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override
-    public List<Users> AdmGetAllUsers() {
+    public List<Users> getAllUsers() {
         return userRepository.findAll();
     }
 
     @Override
-    public Users AdmAddUser(Users item) {
-        Users userFromDB = userRepository.findByEmail(item.getUsername());
-
-        if (userFromDB != null) {
-            return null;
-        }
-        List<Roles> roles = new ArrayList<> ();
-        roles.add(new Roles(2L, "ROLE_USER"));
-        item.setRoles(roles);
-
-        item.setPassword(passwordEncoder.encode(item.getPassword()));
-        return userRepository.save(item);
-
+    public Users addUser(Users b) {
+        return userRepository.save(b);
     }
 
     @Override
-    public Users AdmGetUser(Long id) {
-        Optional<Users> opt = userRepository.findById(id);
-        return opt.isPresent()?opt.get():null;
-    }
-
-    @Override
-    public Users AdmSaveUser(Users item) {
-        item.setPassword(passwordEncoder.encode(item.getPassword()));
-        return userRepository.save(item);
-    }
-
-    @Override
-    public void AdmDeleteUser(Users item) {
-        userRepository.delete(item);
-    }
-    @Override
-    public Users AdmSaveUserInfo(Users item) {
-        return userRepository.save(item);
-    }
-    @Override
-    public List<Roles> getAllRoles() {
-        return rolesRepository.findAll();
+    public Users getUser(Long id) {
+        return userRepository.getOne(id);
     }
 
     @Override
     public Roles getRole(Long id) {
-        Optional<Roles> opt = rolesRepository.findById(id);
-        return opt.isPresent()?opt.get():null;
+        return roleRepository.getOne(id);
     }
 
+    @Override
+    public Users saveUser(Users item) {
+        return userRepository.save(item);
+    }
 
+    @Override
+    public List<Roles> getAllRoles() {
+        return roleRepository.findAll();
+    }
+
+    @Override
+    public Roles addRole(Roles b) {
+        return roleRepository.save(b);
+    }
+
+    @Override
+    public Roles saveRole(Roles item) {
+        return roleRepository.save(item);
+    }
+
+    @Override
+    public void deleteUser(Users user) {
+        userRepository.delete(user);
+    }
 }

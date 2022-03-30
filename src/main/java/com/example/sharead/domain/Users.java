@@ -12,64 +12,26 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "t_users")
+@Table(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users implements UserDetails {
-
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name="id")
     private Long id;
 
-    @Column(name = "email")
+    @Column(name="email", length =255)
     private String email;
-
-    @Column(name = "full_name")
+    @Column(name="password", length =255)
+    private String password;
+    @Column(name="fullname", length =255)
     private String fullName;
 
-    @Column(name = "ava_url", columnDefinition = "varchar(255) default 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'")
-    private String avatar;
-
-    @Column(name = "password")
-    private String password;
+    @Column(name="user_avatar" )
+    private String userAvatar;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Roles> roles;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

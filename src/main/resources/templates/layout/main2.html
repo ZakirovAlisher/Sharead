@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout">
+
+    <head> <style>
+        body{
+            overflow-x: hidden;
+
+        }
+
+
+    </style>
+        <meta charset="UTF-8">
+        <!-- CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <script>
+            function edit(o) {
+                console.log(o);
+                document.getElementById("name_ctn").value = o;
+
+
+            }
+            function edit1(o) {
+                console.log(o);
+                document.getElementById("code_ctn").value = o;
+
+
+            }
+            function editidctn(o) {
+                console.log(o);
+                document.getElementById("id_ctn").value = o;
+
+
+            }
+
+
+            function edit2(o) {
+                console.log(o);
+                document.getElementById("name_br").value = o;
+
+
+            }
+            function edit3(o) {
+                console.log(o);
+                document.getElementById("ctn_br").value = o;
+
+
+            }
+            function editidbr(o) {
+                console.log(o);
+                document.getElementById("id_br").value = o;
+
+
+            }
+
+            function editcat1(o) {
+                console.log(o);
+                document.getElementById("name_id").value = o;
+
+
+            }
+
+            function editcat2(o) {
+                console.log(o);
+                document.getElementById("url_id").value = o;
+
+
+            }
+            function editcat3(o) {
+                console.log(o);
+                document.getElementById("cat_id_id").value = o;
+
+
+            }
+            function edituser4(o) {
+                console.log(o);
+                document.getElementById("user_id").value = o;
+
+
+            }
+
+            function edituser1(o) {
+                console.log(o);
+                document.getElementById("email_id").value = o;
+
+
+            }
+            function edituser2(o) {
+                console.log(o);
+                document.getElementById("fname_id").value = o;
+
+
+            }
+            function edituser3(o) {
+                console.log(o);
+                document.getElementById("pass_id").value = o;
+
+
+            }
+
+
+        </script>
+        <!-- jQuery and JS bundle w/ Popper.js -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+        <title>HELLO WORLD ON SPRING</title>
+    </head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light  " style="background-color: #079915; color: white">
+        <a class="navbar-brand ml-5" href="/" style="color: white"><img src="https://avatars.mds.yandex.net/get-adv/135342/2a0000016c909ced8d6107c4dab9897eea51/orig" style="width: 40px;height: 40px"><b> E-SHOP</b></a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+
+
+            </ul>
+            <form method="get" class="form-inline my-2 my-lg-0">
+                <select name="lng" class="form-control mr-2" onchange="this.form.submit()"><option value="en" th:selected="${#request.getParameter('lng') == 'en'}">ENG</option><option value="ru" th:selected="${#request.getParameter('lng') == 'ru'}">RUS</option><option value="kz" th:selected="${#request.getParameter('lng') == 'kz'}">KAZ</option></select>
+
+            </form>
+            <a href="/login" class="btn btn-outline-warning my-2 my-sm-0" style="color: white" sec:authorize="isAnonymous()" th:text="#{label.login}"></a>
+            <a href="/register" class="btn btn-outline-warning my-2 my-sm-0" style="color: white" sec:authorize="isAnonymous()" th:text="#{label.reg}"></a>
+
+            <a href="/profile" class="btn btn-outline-warning my-2 my-sm-0" style="color: white" sec:authorize="isAuthenticated()" th:text="${currentUser.getFullName()}"></a>
+            <a href="JavaScript:void(0)" onclick="document.getElementById('logoutForm').submit()" class="btn btn-outline-warning my-2 my-sm-0" style="color: white" sec:authorize="isAuthenticated()" th:text="#{label.logout}"></a>
+            <a th:href="@{'/admin'}" class="btn btn-outline-warning"  sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')"  style="text-decoration: none; color:white;" th:text="#{label.admin}">
+
+            </a>
+            <a href="/basket" class="btn btn-outline-info my-2 my-sm-0" style="color: white"  th:text="#{label.basket}"></a>
+        </div>
+    </nav>
+    <form th:action="@{'/logout'}" method="post" id="logoutForm" sec:authorize="isAuthenticated()"></form>
+    <div class="row ">
+
+    <div layout:fragment="site_content" class="  container" style="width: 1000px"></div>
+
+
+    </div>
+
+
+
+
+
+
+</body>
+</html>

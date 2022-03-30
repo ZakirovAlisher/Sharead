@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional
-public interface RolesRepository extends JpaRepository<Roles, Long> {
+public interface RoleRepository extends JpaRepository<Roles, Long> {
 
 
 
