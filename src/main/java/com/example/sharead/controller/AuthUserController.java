@@ -156,11 +156,11 @@ public class AuthUserController {
 
 
         if(pass.equals(pass2)){
-            ArrayList<Roles> r = new ArrayList<Roles>();
-            r.add(userService.getRole(1L));
+//            ArrayList<Roles> r = new ArrayList<Roles>();
+//            r.add(userService.getRole(1L));
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-            userService.addUser(new Users(null,email,passwordEncoder.encode(pass), name, null,r));
+            userService.addUser(new Users(null,email,passwordEncoder.encode(pass), name, null,null));
 
 
             redirAttrs.addFlashAttribute("success", "Successfully registred");
