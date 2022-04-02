@@ -1,0 +1,64 @@
+
+<html   xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorate = "layout/loginLayout.html" >
+
+<div layout:fragment="site_content" >
+<div class="jumbotron " >
+
+    <div class="container-fluid bg-success  mb-2 text-center p-5"style="color: white; border-radius: 50px">
+        <h3><span  th:text="#{label.welcome}"></span>  <span th:text="${currentUser.getFullName()}"></span></h3>
+
+        <img th:src="@{'/viewphoto/'+${currentUser.userAvatar}}" class="border border-warning" style="width: 60%;height: 460px; border-radius:999em">
+    </div>
+    <div class="alert alert-primary" role="alert" th:text="${successA}" th:if="${successA}"></div>
+    <div class="alert alert-danger" role="alert" th:text="${errorA}" th:if="${errorA}"></div>
+
+
+
+
+
+<form th:action="@{/uploadavatar}" method="post" class="mt-2 mb-2"  enctype="multipart/form-data">
+    <div class="custom-file">
+        <input type="file" class="custom-file-input" id="customFile" name="user_ava">
+        <label class="custom-file-label" for="customFile" th:text="#{label.choose}" ></label>
+    </div>
+<button class="btn btn-success mt-2" th:text="#{label.upload}"> </button>
+</form>
+    <div class="alert alert-primary" role="alert" th:text="${success1}" th:if="${success1}"></div>
+
+    <form th:action="@{/edprofile}" method="post">
+        <div class="form-group">
+            <input type="hidden" th:value="${currentUser.getId()}" name="id" id="user_id">
+            <span th:text="#{label.email}"></span> <span type="text" class="form-control" th:text="${currentUser.getEmail()}" > </span>
+            <span th:text="#{label.fullname}"></span> <input type="text" id="fname_id" th:value="${currentUser.getFullName()}" class="form-control" name="name">
+
+
+        </div>
+        <div class="modal-footer">
+
+            <button type="submit" class="btn btn-primary" th:text="#{label.save}"></button>
+        </div>
+    </form>
+    <div class="alert alert-primary" role="alert" th:text="${successP}" th:if="${successP}"></div>
+    <div class="alert alert-danger" role="alert" th:text="${errorP}" th:if="${errorP}"></div>
+    <div class="alert alert-danger" role="alert" th:text="${errorP2}" th:if="${errorP2}"></div>
+    <form th:action="@{/edpass}" method="post">
+        <div class="form-group">
+            <input type="hidden" th:value="${currentUser.getId()}" name="id" >
+            <span th:text="#{label.old}"></span>  <input type="text" class="form-control"   name="old">
+            <span th:text="#{label.new}"></span>  <input type="text"   class="form-control" name="new">
+
+            <span th:text="#{label.cnew}"></span>  <input type="text"    class="form-control" name="new2">
+
+        </div>
+        <div class="modal-footer">
+
+            <button type="submit" class="btn btn-primary" th:text="#{label.save}"></button>
+        </div>
+    </form>
+
+
+</div>
+
+
+</div>
+</html>
