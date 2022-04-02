@@ -26,6 +26,23 @@ public class AdminUserController {
     @Autowired
     UserService userService;
 
+    @GetMapping(value = "/admin")
+     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")
+    public String admin(Model model){
+        model.addAttribute("currentUser", getUserData());
+
+
+
+        List<Roles> roles = userService.getAllRoles();
+        List<Users> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        model.addAttribute("roles", roles);
+
+
+
+        return "admin";
+    }
+
     @GetMapping(value = "/user_details/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public String userdetails(Model m, @PathVariable(name = "id") Long id){

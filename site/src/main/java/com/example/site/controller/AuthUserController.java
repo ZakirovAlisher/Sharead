@@ -1,5 +1,6 @@
 package com.example.site.controller;
 
+import com.example.site.domain.Roles;
 import com.example.site.domain.Users;
 import com.example.site.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -33,6 +34,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -145,11 +147,11 @@ public class AuthUserController {
 
 
         if(pass.equals(pass2)){
-//            ArrayList<Roles> r = new ArrayList<Roles>();
-//            r.add(userService.getRole(1L));
+            ArrayList<Roles> r = new ArrayList<Roles>();
+            r.add(userService.getRole(1L));
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-            userService.addUser(new Users(null, email, passwordEncoder.encode(pass), name, null, null));
+            userService.addUser(new Users(null, email, passwordEncoder.encode(pass), name, null, r));
 
 
             redirAttrs.addFlashAttribute("success", "Successfully registred");

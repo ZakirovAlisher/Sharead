@@ -31,29 +31,7 @@ public class HomeController {
     }
 
 
-    @GetMapping(value = "/admin")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")
-    public String admin(Model model){
-//        model.addAttribute("currentUser", getUserData());
-//        ArrayList<Items> items = (ArrayList<Items>) itemService.getAllItems();
-//        model.addAttribute("items", items);
-//
-//        List<Countries> countries = itemService.getAllCountries();
-//        model.addAttribute("countries", countries);
-//
-//        List<Brands> brands = itemService.getAllBrands();
-//        model.addAttribute("brands", brands);
-//
-//        List<Roles> roles = userService.getAllRoles();
-//        List<Users> users = userService.getAllUsers();
-//        model.addAttribute("users", users);
-//        model.addAttribute("roles", roles);
-//        List<Categories> cats = itemService.getAllCategories();
-//        model.addAttribute("cats", cats);
 
-
-        return "admin";
-    }
 
     @GetMapping(value = "/403")
     public String accessDenied(Model m){
