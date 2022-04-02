@@ -1,0 +1,436 @@
+<html   xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/loginLayout.html" >
+
+<div layout:fragment="site_content" class="w-100" >
+
+
+    <div class="container mt-3">
+        <button class="btn btn-info ml-4"  data-toggle="modal" data-target="#addItem" >+ ADD NEW ITEM</button>
+        <button class="btn btn-success"  data-toggle="modal" data-target="#addBrand" >+ ADD NEW BRAND</button>
+        <button class="btn btn-warning"  data-toggle="modal" data-target="#addCountry" >+ ADD NEW COUNTRY</button>
+        <button class="btn btn-secondary"  data-toggle="modal" data-target="#addCategory" >+ ADD NEW CATEGORY</button>
+        <button class="btn btn-dark"  data-toggle="modal" data-target="#addUser" >+ ADD NEW USER</button>
+        <button class="btn btn-danger"  data-toggle="modal" data-target="#addRole" >+ ADD NEW ROLE</button>
+        <div class="modal fade" id="addItem" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                    <form th:action="@{/additem}" method="post">
+                        <div class="form-group">
+
+                            Name <input type="text" class="form-control" name="name">
+                            Desc <input type="text" class="form-control" name="desc">
+                            Price <input type="text" class="form-control" name="price">
+
+                            Stars <input type="text" class="form-control" name="stars">
+                            SmallUrl <input type="text" class="form-control" name="s_url">
+
+                            LargeUrl <input type="text" class="form-control" name="l_url">
+                            Brand
+                            <select class="form-control" name="brand_id">
+                                <option th:each="br : ${brands}" th:text="${br.name}" th:value="${br.id}"></option>
+
+                            </select>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" style="background-color: rgba(46,86,80,1);">ADD</button>
+                        </div>
+                    </form>
+                </div></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                <form th:action="@{/addcat}" method="post">
+                    <div class="form-group">
+
+                        Name <input type="text" class="form-control" name="name">
+
+                        Logo Url
+                        <input type="text" class="form-control" name="url">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" style="background-color: rgba(46,86,80,1);">ADD</button>
+                    </div>
+                </form>
+            </div></div>
+        </div>
+    </div>
+    <div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                <form th:action="@{/adduser}" method="post">
+                    <div class="form-group">
+
+                        Email <input type="text" class="form-control" name="email">
+                        Full name <input type="text" class="form-control" name="name">
+                        Password
+                        <input type="text" class="form-control" name="pass">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" style="background-color: rgba(46,86,80,1);">ADD</button>
+                    </div>
+                </form>
+            </div>
+        </div></div>
+    </div>
+
+    <div class="modal fade" id="edUser" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                <form th:action="@{/eduser}" method="post">
+                    <div class="form-group">
+                        <input type="hidden" name="id" id="user_id">
+                        Email <input type="text" class="form-control" id="email_id" name="email">
+                        Full name <input type="text" id="fname_id" class="form-control" name="name">
+                        Password
+                        <input type="text" id="pass_id" class="form-control" name="pass">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" name="del" value="1" class="btn btn-danger" >DELETE</button>
+                        <button type="submit" class="btn btn-primary" >SAVE</button>
+                    </div>
+                </form>
+            </div></div>
+        </div>
+    </div>
+    <div class="modal fade" id="addRole" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                <form th:action="@{/addrole}" method="post">
+                    <div class="form-group">
+
+                        Role <input type="text" class="form-control" name="role">
+
+                       Description
+                        <input type="text" class="form-control" name="desc">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" style="background-color: rgba(46,86,80,1);">ADD</button>
+                    </div>
+                </form>
+            </div></div>
+        </div>
+    </div>
+    <div class="modal fade" id="edCat" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                <form th:action="@{/edcat}" method="post">
+                    <div class="form-group">
+                        <input type="hidden" name="id" id="cat_id_id">
+                        Name <input type="text" id="name_id" class="form-control" name="name">
+
+                        Logo Url
+                        <input type="text" id="url_id" class="form-control" name="url">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" name="del" value="1" class="btn btn-danger" >DELETE</button>
+                        <button type="submit" class="btn btn-primary" >SAVE</button>
+                    </div>
+                </form>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addBrand" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                <form  th:action="@{/addbr}" method="post">
+                    <div class="form-group">
+
+                        Name <input type="text" class="form-control" name="name">
+
+                        Country
+                        <select class="form-control" name="country_id">
+                            <option th:each="ctn : ${countries}" th:text="${ctn.name}" th:value="${ctn.id}"></option>
+
+                        </select>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" style="background-color: rgba(46,86,80,1);">ADD</button>
+                    </div>
+                </form>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="edBrand" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                <form th:action="@{/edbr}" method="post">
+                    <div class="form-group">
+                        <input type="hidden" name="id" id="id_br">
+                        Name <input id="name_br" type="text" class="form-control" name="name">
+
+                        Country
+                        <select id="ctn_br" class="form-control" name="country_id">
+                            <option th:each="ctn : ${countries}" th:text="${ctn.name}" th:value="${ctn.id}"></option>
+
+                        </select>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" name="del" value="1" class="btn btn-danger" >DELETE</button>
+                        <button type="submit" class="btn btn-primary" >SAVE</button>
+                    </div>
+                </form>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addCountry" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                <form th:action="@{/addctn}" method="post">
+                    <div class="form-group">
+
+                        Name <input type="text" class="form-control" name="name">
+                        Code <input type="text" class="form-control" name="code">
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" style="background-color: rgba(46,86,80,1);">ADD</button>
+                    </div>
+                </form>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="edCountry" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                <form th:action="@{/edctn}" method="post">
+                    <div class="form-group">
+                        <input type="hidden" name="id" id="id_ctn">
+                        Name <input id="name_ctn" type="text" class="form-control" name="name">
+                        Code <input id="code_ctn"  type="text" class="form-control" name="code">
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" >SAVE</button>
+                        <button type="submit" name="del" value="1" class="btn btn-danger" >DELETE</button>
+                    </div>
+                </form>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="container mt-3 border border-secondary">
+        <div class="row mt-5">
+            <div class="col-12">
+
+
+                <div class="jumbotron bg-success  text-center" style="color: white; font-size: 40px">
+                    ITEMS
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>NAME</th>
+                        <th>DESCRIPTION</th>
+                        <th>PRICE</th>
+                        <th>RATING</th>
+
+                        <th>BRAND</th>
+                        <th>DETAILS</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="i : ${items}">
+                        <td th:text="${i.getId()}"></td>
+                        <td th:text="${i.getName()}"></td>
+                        <td th:text="${i.getDescription()}"></td>
+                        <td th:text="${i.getPrice()}"></td>
+                        <td th:text="${i.getStars()}"></td>
+
+                        <td th:text="${i.getBrand()!=null?i.getBrand().name:'------'}"></td>
+                        <td>
+                            <a th:href="@{'/item_details/' + ${i.getId()}}" class="btn btn-info">
+
+                                EDIT
+
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+
+                <div class="jumbotron bg-success  text-center" style="color: white; font-size: 40px">
+                    COUNTRIES
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>NAME</th>
+                        <th>CODE</th>
+                        <th>EDIT</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="i : ${countries}">
+                        <td th:text="${i.getId()}"></td>
+                        <td th:text="${i.getName()}"></td>
+                        <td th:text="${i.getCode()}"></td>
+                        <td  >
+                            <button th:onclick="edit([[${i.getName()}]]); edit1([[${i.getCode()}]]); editidctn([[${i.getId()}]]);   " data-toggle="modal" class="btn btn-info" data-target="#edCountry" >
+
+EDIT
+
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="jumbotron bg-success  text-center" style="color: white; font-size: 40px">
+                    BRANDS
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>NAME</th>
+                        <th>COUNTRY</th>
+                        <th>EDIT</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="i : ${brands}">
+                        <td th:text="${i.getId()}"></td>
+                        <td th:text="${i.getName()}"></td>
+                        <td th:text="${i.getCountry()!=null?i.getCountry().name:'------'}"></td>
+                        <td  >
+                            <button th:onclick="edit2([[${i.getName()}]]); edit3([[${i.getCountry().getId()}]]); editidbr([[${i.getId()}]]);  " data-toggle="modal" class="btn btn-info" data-target="#edBrand" >
+
+                                EDIT
+
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="jumbotron bg-success  text-center" style="color: white; font-size: 40px">
+                    CATEGORIES
+                </div>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>NAME</th>
+                        <th>URL</th>
+                        <th>EDIT</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="i : ${cats}">
+                        <td th:text="${i.getId()}"></td>
+                        <td th:text="${i.getName()}"></td>
+                        <td th:text="${i.getLogoURL()}"></td>
+                        <td  >
+                            <button th:onclick="editcat1([[${i.getName()}]]); editcat2([[${i.getLogoURL()}]]); editcat3([[${i.getId()}]]);  " data-toggle="modal" class="btn btn-info" data-target="#edCat" >
+
+                                EDIT
+
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="jumbotron bg-success  text-center" style="color: white; font-size: 40px">
+                    USERS
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>EMAIL</th>
+                        <th>FULL_NAME</th>
+                        <th>PASSWORD</th>
+                        <th>EDIT</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="i : ${users}">
+                        <td th:text="${i.getId()}"></td>
+                        <td th:text="${i.getEmail()}"></td>
+                        <td th:text="${i.getFullName()}"></td>
+                        <td th:text="${i.getPassword()}"></td>
+
+                        <td  >
+                            <a th:href="@{'/user_details/' + ${i.getId()}}" class="btn btn-info">
+
+                                EDIT
+
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="jumbotron bg-success  text-center" style="color: white; font-size: 40px">
+                    ROLES
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ROLE</th>
+                        <th>DESCRIPTION</th>
+
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="i : ${roles}">
+                        <td th:text="${i.getId()}"></td>
+                        <td th:text="${i.getAuthority()}"></td>
+                        <td th:text="${i.getDescription()}"></td>
+
+
+                    </tr>
+                    </tbody>
+                </table>
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+
+
+
+</html>

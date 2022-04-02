@@ -1,0 +1,55 @@
+
+<html   xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorate = "layout/mainLayout.html" >
+
+<div layout:fragment="site_content" >
+
+
+
+
+    <form method="get" th:action="@{'/search2'}"  class="mt-3">
+        <div class="row pl-4">
+        <input type="text" class="form-control col-11 shadow " name="name" >
+        <button class="btn btn-success col-1 shadow"style="position: relative; right: 20px" th:text="#{label.search}"></button>
+        </div>
+    </form>
+
+<div class="row mt-5">
+
+
+    <div class="  col-4 p-4" th:each="t : ${items}">
+        <div class="card shadow"  >
+            <a th:href="@{'/details/' + ${t.getId()}}">
+          <div class="card-header">
+
+<img  th:src="${t.getSmallPicURL()}" class="w-100 border border-success shadow"   style="height: 350px " >
+
+            </div>
+        </a>
+            <div class="card-body">
+                <div style="font-weight: bold; font-size: 30px" class="card-title" th:text="${t.getName()}" > </div>
+                    <h5 th:text="${t.getPrice() + '$'}"> </h5>
+                <div th:text="${t.getDescription()}" ></div>
+
+                <b> BRAND:</b>  <div th:text=" ${t.getBrand().name + ', ' + t.getBrand().getCountry().name}" ></div>
+
+            </div>
+
+
+            <div class=" card-footer w-100">
+
+                <img  th:each="i : ${#numbers.sequence( 1, t.getStars(), 1)}" width="15" height="15" src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png"><img  th:each="i : ${#numbers.sequence( t.getStars(), 4, 1)}" width="15" height="15" src="https://pngimg.com/uploads/star/star_PNG41451.png">
+
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+</div>
+
+
+
+
+</html>

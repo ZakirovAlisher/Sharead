@@ -1,0 +1,56 @@
+
+<html   xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorate = "layout/loginLayout.html" >
+
+<div layout:fragment="site_content" >
+    <div class="col-6">
+
+            <form th:action="@{/eduser}" method="post">
+                <div class="form-group">
+                    <input type="hidden" th:value="${user.getId()}" name="id" id="user_id">
+                    Email <input type="text" class="form-control" th:value="${user.getEmail()}" id="email_id" name="email">
+                    Full name <input type="text" id="fname_id" th:value="${user.getFullName()}" class="form-control" name="name">
+                    Password
+                    <input type="text" id="pass_id"   th:value="${user.getPassword()}" class="form-control" name="pass">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" name="del" value="1" class="btn btn-danger" >DELETE</button>
+                    <button type="submit" class="btn btn-primary" >SAVE</button>
+                </div>
+            </form>
+
+
+        <table class="table table-stripped" id="roles_table">
+            <tbody>
+            <tr th:each="role : ${roles}"  th:classappend ="${user.roles.contains(role)} ? bg-success  : '' "  >
+
+                <form method="post" th:action="@{'/assignrole'}">
+
+                    <input type="hidden" th:value="${user.id}" name="user_id">
+
+                    <input type="hidden" th:value="${role.id}" name="role_id">
+
+                    <td th:classappend ="${user.roles.contains(role)} ? text-white  : '' " class="display-4" th:text="${role.getAuthority()}"></td>
+
+                    <td width="10%">
+                        <button   name="del" value="1" th:if="${user.roles.contains(role)}" class="btn btn-danger display-4">-</button>
+                        <button  th:if="${!user.roles.contains(role)}" class="btn btn-success display-4">+</button>
+                    </td>
+
+
+                </form>
+
+
+            </tr>
+
+
+
+            </tbody>
+
+
+        </table>
+
+    </div>
+
+</div>
+</html>
