@@ -28,15 +28,6 @@ public class Books {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "pic")
-    private String pic;
-
-    @Column(name = "state")
-    private String state;
-
-    @Column(name = "author")
-    private String author;
-
     @ManyToOne(fetch = FetchType.EAGER)
-    Users user;
+    private Authors author;
 }
