@@ -26,18 +26,11 @@ public class HomeController {
 //        model.addAttribute("items", items);
 //        List<Brands> brands = itemService.getAllBrands();
 //        model.addAttribute("brands", brands);
-//        model.addAttribute("currentUser", getUserData());
+        model.addAttribute("currentUser", getUserData());
         return "index";
     }
 
 
-
-
-    @GetMapping(value = "/403")
-    public String accessDenied(Model m){
-        m.addAttribute("currentUser", getUserData());
-        return "403";
-    }
 
     private Users getUserData(){
         Authentication authontication = SecurityContextHolder.getContext().getAuthentication();

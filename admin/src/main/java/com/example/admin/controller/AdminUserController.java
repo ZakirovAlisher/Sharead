@@ -26,6 +26,14 @@ public class AdminUserController {
     @Autowired
     UserService userService;
 
+
+
+    @GetMapping(value = "/403")
+    public String accessDenied(Model m){
+        m.addAttribute("currentUser", getUserData());
+        return "403";
+    }
+
     @GetMapping(value = "/admin")
      @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")
     public String admin(Model model){
