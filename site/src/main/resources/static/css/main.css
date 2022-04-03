@@ -1,0 +1,19 @@
+.libimg{
+    max-height: 36em;
+    max-width: 25em;
+    min-height: 14em;
+    min-width: 10em;
+}
+
+.cardlib{
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    max-width: 25em;
+    min-width: 10em;
+}
+
+.libcontainer{
+    /*padding-right: 1em;*/
+    /*padding-left: 1em;*/
+}
