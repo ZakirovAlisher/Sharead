@@ -20,8 +20,5 @@ public class Genres {
     private Long id;
 
     @Column(name = "name")
-    private String title;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Books> books;
+    private String name;
 }

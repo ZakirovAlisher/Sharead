@@ -1,7 +1,13 @@
 package com.example.admin.controller;
 
+import com.example.site.domain.Authors;
+import com.example.site.domain.Books;
+import com.example.site.domain.Genres;
 import com.example.site.domain.Roles;
 import com.example.site.domain.Users;
+import com.example.site.service.AuthorService;
+import com.example.site.service.BookService;
+import com.example.site.service.GenreService;
 import com.example.site.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +32,14 @@ public class AdminUserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    GenreService genreService;
 
+    @Autowired
+    AuthorService authorService;
+
+    @Autowired
+    BookService bookService;
 
     @GetMapping(value = "/403")
     public String accessDenied(Model m){
@@ -43,9 +56,16 @@ public class AdminUserController {
 
         List<Roles> roles = userService.getAllRoles();
         List<Users> users = userService.getAllUsers();
+        List<Authors> authors = authorService.getAllAuthors();
+        List<Genres> genres = genreService.getAllGenres();
+        List<Books> books = bookService.getAllBooks();
+
+
         model.addAttribute("users", users);
         model.addAttribute("roles", roles);
-
+        model.addAttribute("authors", authors);
+        model.addAttribute("genres", genres);
+        model.addAttribute("books", books);
 
 
         return "admin";

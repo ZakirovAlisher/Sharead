@@ -1,0 +1,61 @@
+
+<html   xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorate = "layout/loginLayout.html" >
+
+<div layout:fragment="site_content" >
+    <div class="col-6">
+
+        <form th:action="@{/editBook}" method="post">
+            <div class="form-group">
+                <input type="hidden" th:value="${book.getId()}" name="id" id="book_id">
+                Title <input type="text" class="form-control" th:value="${book.getTitle()}"   name="title">
+
+                Author
+                <select  class="form-control" name="author_id">
+                    <option th:each="author : ${authors}" th:text="${author.getName()}" th:value="${author.getId()}"
+                    th:selected="${book.getAuthor().getId() == author.getId()}"
+                    ></option>
+
+                </select>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" name="del" value="1" class="btn btn-danger" >DELETE</button>
+                <button type="submit" class="btn btn-primary" >SAVE</button>
+            </div>
+        </form>
+
+
+        <table class="table table-stripped" id="roles_table">
+            <tbody>
+            <tr th:each="genre : ${genres}"  th:classappend ="${book.getGenres().contains(genre)} ? bg-success  : '' "  >
+
+                <form method="post" th:action="@{'/assign_genre'}">
+
+                    <input type="hidden" th:value="${book.id}" name="book_id">
+
+                    <input type="hidden" th:value="${genre.id}" name="genre_id">
+
+                    <td th:classappend ="${book.getGenres().contains(genre)} ? text-white  : '' " class="display-4" th:text="${genre.getName()}"></td>
+
+                    <td width="10%">
+                        <button   name="del" value="1" th:if="${book.getGenres().contains(genre)}" class="btn btn-danger display-4">-</button>
+                        <button  th:if="${!book.getGenres().contains(genre)}" class="btn btn-success display-4">+</button>
+                    </td>
+
+
+                </form>
+
+
+            </tr>
+
+
+
+            </tbody>
+
+
+        </table>
+
+    </div>
+
+</div>
+</html>

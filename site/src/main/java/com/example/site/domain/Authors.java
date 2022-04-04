@@ -20,5 +20,5 @@ public class Authors {
     private Long id;
 
     @Column(name = "name")
-    private String title;
+    private String name;
 }

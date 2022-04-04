@@ -9,4 +9,6 @@ public interface GenreService {
     Genres addGenre(Genres genre);
     Genres getGenre(Long id);
     void deleteGenre(Genres genre);
+
+    Genres saveGenre(Genres i);
 }

@@ -24,6 +24,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Books saveBook(Books book) {
+        return bookService.save(book);
+    }
+
+
+    @Override
     public Books getBook(Long id) {
         return bookService.getOne(id);
     }

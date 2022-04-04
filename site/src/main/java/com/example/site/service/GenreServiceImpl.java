@@ -24,4 +24,9 @@ public class GenreServiceImpl implements GenreService{
 
     @Override
     public void deleteGenre(Genres genre) {genreRepository.delete(genre);}
+
+    @Override
+    public Genres saveGenre(final Genres i) {
+        return genreRepository.save(i);
+    }
 }
