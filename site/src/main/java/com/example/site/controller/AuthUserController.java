@@ -118,12 +118,7 @@ public class AuthUserController {
         return "login";
     }
 
-    @GetMapping(value = "/profile")
-    @PreAuthorize("isAuthenticated()")
-    public String profile(Model m){
-        m.addAttribute("currentUser", getUserData());
-        return "profile";
-    }
+
     @GetMapping(value = "/register")
 
     public String reg(Model m){

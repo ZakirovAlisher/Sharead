@@ -27,9 +27,15 @@ public class HomeController {
 //        List<Brands> brands = itemService.getAllBrands();
 //        model.addAttribute("brands", brands);
         model.addAttribute("currentUser", getUserData());
-        return "index";
+        return "exchanges";
     }
 
+    @GetMapping(value = "/profile")
+    @PreAuthorize("isAuthenticated()")
+    public String profile(Model m){
+        m.addAttribute("currentUser", getUserData());
+        return "profile";
+    }
 
 
     private Users getUserData(){
