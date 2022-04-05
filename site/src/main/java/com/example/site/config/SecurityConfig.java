@@ -1,7 +1,6 @@
 package com.example.site.config;
 
 import com.example.site.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -41,21 +40,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/login", "/register", "/reg").permitAll()
             .antMatchers("/*").authenticated();
 
-
         http.formLogin()
             .loginPage("/login").permitAll()
-
             .usernameParameter("user_email")
             .passwordParameter("user_password")
             .loginProcessingUrl("/auth").permitAll()
             .failureUrl("/login?error=Incorrect login")
             .defaultSuccessUrl("/");
+
         http.logout()
             .logoutUrl("/logout")
-            .logoutSuccessUrl("/login").permitAll()
-
-
-        ;
+            .logoutSuccessUrl("/login").permitAll();
 
         //   http.csrf().disable();
     }

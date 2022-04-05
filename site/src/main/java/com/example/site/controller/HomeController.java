@@ -20,12 +20,6 @@ public class HomeController {
 
     @GetMapping(value = "/")
     public String index(Model model){
-//        List<Categories> cats = itemService.getAllCategories();
-//        model.addAttribute("cats", cats);
-//        List<Items> items = itemService.getAllItems();
-//        model.addAttribute("items", items);
-//        List<Brands> brands = itemService.getAllBrands();
-//        model.addAttribute("brands", brands);
         model.addAttribute("currentUser", getUserData());
         return "exchanges";
     }
@@ -36,7 +30,6 @@ public class HomeController {
         m.addAttribute("currentUser", getUserData());
         return "profile";
     }
-
 
     private Users getUserData(){
         Authentication authontication = SecurityContextHolder.getContext().getAuthentication();

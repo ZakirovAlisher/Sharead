@@ -1,6 +1,5 @@
 package com.example.site.domain;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Users {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -28,8 +28,10 @@ public class Users {
 
     @Column(name="email", length =255)
     private String email;
+
     @Column(name="password", length =255)
     private String password;
+
     @Column(name="fullname", length =255)
     private String fullName;
 

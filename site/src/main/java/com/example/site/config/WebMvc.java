@@ -18,8 +18,6 @@ public class WebMvc implements WebMvcConfigurer {
         source.setBasename("classpath:messages");
         source.setDefaultEncoding("UTF-8");
         return source;
-
-
     }
 
     @Bean
@@ -30,13 +28,12 @@ public class WebMvc implements WebMvcConfigurer {
         resolver.setCookieMaxAge(3600*24*365);
         return resolver;
     }
+
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor(){
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lng");
         return localeChangeInterceptor;
-
-
     }
 
     @Override

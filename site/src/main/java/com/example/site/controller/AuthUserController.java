@@ -28,7 +28,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,63 +42,11 @@ import java.util.Base64;
 
 public class AuthUserController {
 
-
-    private  SecretKeySpec secretKey;
-    private  byte[] key;
-
-    public  void setKey(String myKey)
-    {
-        MessageDigest sha = null;
-        try {
-            key = myKey.getBytes("UTF-8");
-            sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16);
-            secretKey = new SecretKeySpec(key, "AES");
-        }
-        catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public  String encrypt(String strToEncrypt, String secret)
-    {
-        try
-        {
-            setKey(secret);
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
-        }
-        catch (Exception e)
-        {
-            System.out.println("Error while encrypting: " + e.toString());
-        }
-        return null;
-    }
-
-    public  String decrypt(String strToDecrypt, String secret)
-    {
-        try
-        {
-            setKey(secret);
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
-        }
-        catch (Exception e)
-        {
-            System.out.println("Error while decrypting: " + e.toString());
-        }
-        return null;
-    }
+    private SecretKeySpec secretKey;
+    private byte[] key;
 
     @Autowired
     private UserService userService;
-
 
     @Value("${file.avatar.viewPath}")
     private String viewPath;
@@ -109,64 +57,92 @@ public class AuthUserController {
     @Value("${file.avatar.defaultPicture}")
     private String defaultPicture;
 
+    public void setKey(String myKey) {
+        MessageDigest sha = null;
+        try {
+            key = myKey.getBytes(StandardCharsets.UTF_8);
+            sha = MessageDigest.getInstance("SHA-1");
+            key = sha.digest(key);
+            key = Arrays.copyOf(key, 16);
+            secretKey = new SecretKeySpec(key, "AES");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public String encrypt(
+            String strToEncrypt,
+            String secret) {
+        try {
+            setKey(secret);
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes(StandardCharsets.UTF_8)));
+        } catch (Exception e) {
+            System.out.println("Error while encrypting: " + e);
+        }
+        return null;
+    }
 
+    public String decrypt(
+            String strToDecrypt,
+            String secret) {
+        try {
+            setKey(secret);
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
+        } catch (Exception e) {
+            System.out.println("Error while decrypting: " + e);
+        }
+        return null;
+    }
 
     @GetMapping(value = "/login")
-    public String login(Model m){
+    public String login(Model m) {
         m.addAttribute("currentUser", getUserData());
         return "login";
     }
 
 
     @GetMapping(value = "/register")
-
-    public String reg(Model m){
+    public String register(Model m) {
         m.addAttribute("currentUser", getUserData());
         return "register";
     }
 
     @PostMapping(value = "/reg")
+    public String registerPost(
+            @RequestParam(name = "name") String name,
+            @RequestParam(name = "pass") String pass,
+            @RequestParam(name = "pass2") String pass2,
+            @RequestParam(name = "email") String email,
+            RedirectAttributes redirAttrs) {
 
-    public String regis(@RequestParam(name="name") String name,
-                        @RequestParam(name="pass") String pass,
-                        @RequestParam(name="pass2") String pass2,
-                        @RequestParam(name="email") String email
-            ,
-                        RedirectAttributes redirAttrs
-                       )
-
-
-
-    {
-
-
-        if(pass.equals(pass2)){
+        if (pass.equals(pass2)) {
             ArrayList<Roles> r = new ArrayList<Roles>();
             r.add(userService.getRole(1L));
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
             userService.addUser(new Users(null, email, passwordEncoder.encode(pass), name, null, r));
 
-
             redirAttrs.addFlashAttribute("success", "Successfully registred");
 
-            return "redirect:/login";}
-        else
-        {redirAttrs.addFlashAttribute("error", "Registration error");
-            return "redirect:/register?error";}
+            return "redirect:/login";
+        } else {
+            redirAttrs.addFlashAttribute("error", "Registration error");
+            return "redirect:/register?error";
+        }
     }
 
 
     @PostMapping(value = "/edprofile")
-
-    public String saveUser2(
-            @RequestParam(name="id") Long id,
-            @RequestParam(name="name") String name,
+    public String editProfile(
+            @RequestParam(name = "id") Long id,
+            @RequestParam(name = "name") String name,
             RedirectAttributes redirAttrs
 
-                           )
-    {
+                           ) {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Users i = userService.getUser(id);
@@ -174,96 +150,77 @@ public class AuthUserController {
 
         userService.saveUser(i);
         redirAttrs.addFlashAttribute("success1", "Profile successfully updated.");
-        return "redirect:/profile" ;
+        return "redirect:/profile";
     }
 
     @PostMapping(value = "/edpass")
-
-    public String saveUser2(
-            @RequestParam(name="id") Long id,
-            @RequestParam(name="old") String old,
-
-            @RequestParam(name="new") String new1,
-            @RequestParam(name="new2") String new2,RedirectAttributes redirAttrs
-
-
-                           )
-    {
-
+    public String editPassword(
+            @RequestParam(name = "id") Long id,
+            @RequestParam(name = "old") String old,
+            @RequestParam(name = "new") String new1,
+            @RequestParam(name = "new2") String new2,
+            RedirectAttributes redirAttrs) {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (passwordEncoder.matches(old, getUserData().getPassword())){
+        if (passwordEncoder.matches(old, getUserData().getPassword())) {
             Users i = userService.getUser(id);
-            if(new1.equals(new2)){
+            if (new1.equals(new2)) {
                 i.setPassword(passwordEncoder.encode(new1));
-                userService.saveUser(i);}
-            else {
-
+                userService.saveUser(i);
+            } else {
                 redirAttrs.addFlashAttribute("errorP", "Confirm password doesnt match.");
-                return "redirect:/profile?differentpasswords" ;}
-        }
-        else  {
-
-
+                return "redirect:/profile?differentpasswords";
+            }
+        } else {
             redirAttrs.addFlashAttribute("errorP2", " Old password doesnt match.");
-            return "redirect:/profile?olddoesntmatch" ;}
-
-
-
-
-
+            return "redirect:/profile?olddoesntmatch";
+        }
 
         redirAttrs.addFlashAttribute("successP", "Password successfully updated.");
-        return "redirect:/profile" ;
+        return "redirect:/profile";
     }
 
 
     @PostMapping(value = "/uploadavatar")
     @PreAuthorize("isAuthenticated()")
     public String avatar(
-            @RequestParam(name="user_ava") MultipartFile file
-            ,RedirectAttributes redirAttrs
-
-                        )
-    {
-        if(file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png")) {
-
+            @RequestParam(name = "user_ava") MultipartFile file,
+            RedirectAttributes redirAttrs) {
+        if (file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png")) {
             try {
                 Users currentUser = getUserData();
 
-                String picName = DigestUtils.sha1Hex("avatar_"+currentUser.getId()+"_!Picture");
+                String picName = DigestUtils.sha1Hex("avatar_" + currentUser.getId() + "_!Picture");
                 byte[] bytes = file.getBytes();
-                Path path = Paths.get(uploadPath + picName+".jpg");
+                Path path = Paths.get(uploadPath + picName + ".jpg");
                 Files.write(path, bytes);
                 currentUser.setUserAvatar(picName);
                 userService.saveUser(currentUser);
                 redirAttrs.addFlashAttribute("successA", "Successfully updated avatar.");
-                return "redirect:/profile?success" ;
+                return "redirect:/profile?success";
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
         redirAttrs.addFlashAttribute("errorA", "Error download avatar.");
-        return "redirect:/profile" ;
+        return "redirect:/profile";
     }
 
 
-
-    @GetMapping(value = "/viewphoto/{url}", produces={MediaType.IMAGE_JPEG_VALUE})
-
-    public @ResponseBody byte[] viewProfilePhoto(@PathVariable(name = "url") String url) throws IOException {
-        String pictureURL = viewPath+defaultPicture;
-        if(url!=null){
-            pictureURL=viewPath+url+".jpg";
+    @GetMapping(value = "/viewphoto/{url}", produces = {MediaType.IMAGE_JPEG_VALUE})
+    public @ResponseBody
+    byte[] viewProfilePhoto(@PathVariable(name = "url") String url) throws IOException {
+        String pictureURL = viewPath + defaultPicture;
+        if (url != null) {
+            pictureURL = viewPath + url + ".jpg";
         }
         InputStream in;
         try {
             ClassPathResource resource = new ClassPathResource(pictureURL);
             in = resource.getInputStream();
-        }
-        catch (Exception e){
-            ClassPathResource resource = new ClassPathResource(viewPath+defaultPicture);
+        } catch (Exception e) {
+            ClassPathResource resource = new ClassPathResource(viewPath + defaultPicture);
             in = resource.getInputStream();
             e.printStackTrace();
         }
@@ -272,17 +229,15 @@ public class AuthUserController {
     }
 
 
-
-    private Users getUserData(){
+    private Users getUserData() {
         Authentication authontication = SecurityContextHolder.getContext().getAuthentication();
-        if(!(authontication instanceof AnonymousAuthenticationToken)){
-            User secUser = (User)authontication.getPrincipal();
+        if (!(authontication instanceof AnonymousAuthenticationToken)) {
+            User secUser = (User) authontication.getPrincipal();
             Users myUser = userService.getUserByEmail(secUser.getUsername());
             return myUser;
         }
         return null;
     }
-
 
 }
 
