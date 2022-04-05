@@ -14,7 +14,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
-                    <form th:action="@{/addBook}" method="post">
+                    <form th:action="@{/addBook}" method="post" enctype="multipart/form-data">
                         <div class="form-group">
 
                             Title <input type="text" class="form-control" name="title">
@@ -23,7 +23,7 @@
                                 <option th:each="author : ${authors}" th:text="${author.getName()}" th:value="${author.getId()}"></option>
 
                             </select>
-
+                            <input type="file" class="form-control" name="cover">
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" style="background-color: rgba(46,86,80,1);">ADD</button>

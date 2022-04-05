@@ -4,6 +4,9 @@
 <div layout:fragment="site_content" >
     <div class="col-6">
 
+        <img th:src="@{'/viewbook/'+${book.getCover()}}" class="border border-warning" style="width: 60%;height: 60%;">
+
+
         <form th:action="@{/editBook}" method="post">
             <div class="form-group">
                 <input type="hidden" th:value="${book.getId()}" name="id" id="book_id">
@@ -16,13 +19,23 @@
                     ></option>
 
                 </select>
-
             </div>
             <div class="modal-footer">
                 <button type="submit" name="del" value="1" class="btn btn-danger" >DELETE</button>
                 <button type="submit" class="btn btn-primary" >SAVE</button>
             </div>
         </form>
+
+        <form th:action="@{/editBookCover}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="hidden" th:value="${book.getId()}" name="id" id="book_id">
+                <input type="file" class="form-control" name="cover">
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" >SAVE COVER</button>
+            </div>
+        </form>
+
 
 
         <table class="table table-stripped" id="roles_table">

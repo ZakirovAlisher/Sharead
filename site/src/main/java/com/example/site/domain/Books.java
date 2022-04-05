@@ -30,9 +30,14 @@ public class Books {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "cover")
+    private String cover;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private Authors author;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Genres> genres;
+
+
 }
