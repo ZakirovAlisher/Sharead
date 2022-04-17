@@ -10,34 +10,28 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.List;
 
 @Entity
-@Table(name = "books")
+@Table(name = "user_books")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Books {
+public class UserBooks {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "title")
-    private String title;
-
     @Column(name = "cover")
     private String cover;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Authors author;
+    private Users user;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Genres> genres;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Books book;
 
 }

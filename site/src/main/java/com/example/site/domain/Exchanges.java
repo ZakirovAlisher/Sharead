@@ -13,31 +13,39 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "books")
+@Table(name = "exchanges")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Books {
+public class Exchanges {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "date")
+    private Date date;
 
-    @Column(name = "cover")
-    private String cover;
+    @Column(name = "comment")
+    private String comment;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Authors author;
+
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<UserBooks> userBooks;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Genres> genres;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Authors> authors;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Books> books;
 
 }
