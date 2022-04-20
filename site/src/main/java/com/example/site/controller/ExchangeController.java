@@ -2,11 +2,13 @@ package com.example.site.controller;
 
 import com.example.site.domain.Authors;
 import com.example.site.domain.Books;
+import com.example.site.domain.Exchanges;
 import com.example.site.domain.Genres;
 import com.example.site.domain.UserBooks;
 import com.example.site.domain.Users;
 import com.example.site.service.AuthorService;
 import com.example.site.service.BookService;
+import com.example.site.service.ExchangeService;
 import com.example.site.service.GenreService;
 import com.example.site.service.UserBookService;
 import com.example.site.service.UserService;
@@ -31,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -52,10 +55,7 @@ public class ExchangeController {
     private String viewPath;
 
     @Autowired
-    private GenreService genreService;
-
-    @Autowired
-    private AuthorService authorService;
+   private ExchangeService exchangeService;
 
     @GetMapping(value = "/createExchange")
     public String index(Model model) {
@@ -64,14 +64,10 @@ public class ExchangeController {
 
         List<Books> books = bookService.getAllBooks();
 
-        List<Genres> genres = genreService.getAllGenres();
 
-        List<Authors> authors = authorService.getAllAuthors();
 
         List<Books> currentBooks = new ArrayList<>();
         List<UserBooks> currentUserBooks = new ArrayList<>();
-        List<Authors> currentAuthors = new ArrayList<>();
-        List<Genres> currentGenres = new ArrayList<>();
 
 
         for (Long id:this.exchangeWebRequest.getUserBooks()) {
@@ -86,27 +82,27 @@ public class ExchangeController {
             books.remove(book);
         }
 
-        for (Long id:this.exchangeWebRequest.getAuthors()) {
-            Authors author = this.authorService.getAuthor(id);
-            currentAuthors.add(author);
-            authors.remove(author);
-        }
-
-        for (Long id:this.exchangeWebRequest.getGenres()) {
-            Genres genre = this.genreService.getGenre(id);
-            currentGenres.add(genre);
-            genres.remove(genre);
-        }
+//        for (Long id:this.exchangeWebRequest.getAuthors()) {
+//            Authors author = this.authorService.getAuthor(id);
+//            currentAuthors.add(author);
+//            authors.remove(author);
+//        }
+//
+//        for (Long id:this.exchangeWebRequest.getGenres()) {
+//            Genres genre = this.genreService.getGenre(id);
+//            currentGenres.add(genre);
+//            genres.remove(genre);
+//        }
 
         model.addAttribute("userBooks", userBooks);
         model.addAttribute("books", books);
-        model.addAttribute("authors", authors);
-        model.addAttribute("genres", genres);
+//        model.addAttribute("authors", authors);
+//        model.addAttribute("genres", genres);
 
         model.addAttribute("currentBooks", currentBooks);
         model.addAttribute("currentUserBooks", currentUserBooks);
-        model.addAttribute("currentAuthors", currentAuthors);
-        model.addAttribute("currentGenres", currentGenres);
+//        model.addAttribute("currentAuthors", currentAuthors);
+//        model.addAttribute("currentGenres", currentGenres);
 
 
         model.addAttribute("currentUser", getUserData());
@@ -121,26 +117,28 @@ public class ExchangeController {
             @RequestParam(name = "type") String type) {
 
         if (type.equals("userBook")){
+            if(exchangeWebRequest.getUserBooks().size() != 6)
             this.exchangeWebRequest.addUserBook(id);
         }
 
         if (type.equals("book")){
+            if(exchangeWebRequest.getBooks().size() != 6)
             this.exchangeWebRequest.addBook(id);
         }
 
-        if (type.equals("genre")){
-            this.exchangeWebRequest.addGenre(id);
-        }
-
-        if (type.equals("author")){
-            this.exchangeWebRequest.addAuthor(id);
-        }
+//        if (type.equals("genre")){
+//            this.exchangeWebRequest.addGenre(id);
+//        }
+//
+//        if (type.equals("author")){
+//            this.exchangeWebRequest.addAuthor(id);
+//        }
 
         return "redirect:/createExchange";
     }
 
 
-    @PostMapping(value = "/removebookfromexchange")
+    @GetMapping(value = "/removebookfromexchange")
     public String removeBookFromExchange(
             @RequestParam(name = "id") Long id,
             @RequestParam(name = "type") String type) {
@@ -154,17 +152,53 @@ public class ExchangeController {
             this.exchangeWebRequest.getBooks().remove(id);
         }
 
-        if (type.equals("genre")){
-            this.exchangeWebRequest.getGenres().remove(id);
-        }
-
-        if (type.equals("author")){
-            this.exchangeWebRequest.getAuthors().remove(id);
-        }
+//        if (type.equals("genre")){
+//            this.exchangeWebRequest.getGenres().remove(id);
+//        }
+//
+//        if (type.equals("author")){
+//            this.exchangeWebRequest.getAuthors().remove(id);
+//        }
 
         return "redirect:/createExchange";
     }
 
+    @PostMapping(value = "/submitExchange")
+    public String submitExchange(
+            @RequestParam(name = "comment") String comment) {
+
+        Exchanges exchange = new Exchanges();
+
+        List<Books> currentBooks = new ArrayList<>();
+        List<UserBooks> currentUserBooks = new ArrayList<>();
+
+
+        for (Long id:this.exchangeWebRequest.getUserBooks()) {
+            UserBooks userBook = this.userBookService.getBook(id);
+            currentUserBooks.add(userBook);
+        }
+        this.exchangeWebRequest.setUserBooks(new ArrayList<>());
+
+        for (Long id:this.exchangeWebRequest.getBooks()) {
+            Books book = this.bookService.getBook(id);
+            currentBooks.add(book);
+        }
+        this.exchangeWebRequest.setBooks(new ArrayList<>());
+
+
+        exchange.setBooks(currentBooks);
+        exchange.setUserBooks(currentUserBooks);
+        exchange.setComment(comment);
+        exchange.setUser(getUserData());
+        exchange.setDate(new Date());
+
+        exchangeService.addExchange(exchange);
+
+
+
+
+        return "redirect:/";
+    }
 
     @GetMapping(value = "/viewbookex/{url}", produces = {MediaType.IMAGE_JPEG_VALUE})
     public @ResponseBody

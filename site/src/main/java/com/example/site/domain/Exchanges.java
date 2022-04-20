@@ -34,16 +34,17 @@ public class Exchanges {
     @Column(name = "comment")
     private String comment;
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Users user;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<UserBooks> userBooks;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Genres> genres;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Authors> authors;
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    private List<Genres> genres;
+//
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    private List<Authors> authors;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Books> books;

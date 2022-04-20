@@ -1,0 +1,155 @@
+
+<html   xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorate = "layout/loginLayout.html" >
+
+<div layout:fragment="site_content" class="libcontainer " >
+    <div class="text-center" style="margin: 0 auto">
+    <button class="btn btn-dark m-3"  data-toggle="modal" data-target="#addBook" >+ SUBMIT +</button>
+
+
+
+        <div class="   m-0 " style="margin: 0 auto" >
+
+            <div class=" row  m-0">
+
+                <div class="col-5" >
+                <div class="row  m-0" style="background-color: #b4de62">
+                <div th:each="book : ${currentUserBooks}" class="col-4">
+
+                    <a th:href="@{'/removebookfromexchange/i'+${book.getId()}}">
+                        <img th:src="@{'/viewuserbook/'+${book.getCover()}}"
+                             class="card-img-top eximg" alt="...">
+                    </a>
+
+                        <div class="card-body ">
+
+                        </div>
+
+                </div>
+
+
+                </div>
+
+
+                </div>
+
+        <div class="col-2" >
+            <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-0.jpg" class="swap"/>
+        </div>
+
+                <div class="col-5" >
+                    <div class="row  m-0" style="background-color: #b4de62">
+                        <div class="col-4">
+
+                                <img src="https://cv2.litres.ru/pub/c/elektronnaya-kniga/cover_max1500/121626-dzhoan-ketlin-rouling-garri-potter-i-filosofskiy-kamen.jpg"
+                                     class="card-img-top eximg" alt="...">
+                                <div class="card-body ">
+
+                                </div>
+
+                        </div>
+                        <div class="col-4">
+
+                                <img src="https://cv2.litres.ru/pub/c/elektronnaya-kniga/cover_max1500/121626-dzhoan-ketlin-rouling-garri-potter-i-filosofskiy-kamen.jpg"
+                                     class="card-img-top eximg" alt="...">
+                                <div class="card-body ">
+
+                                </div>
+
+                        </div>
+                        <div class="col-4">
+
+                                <img src="https://cv2.litres.ru/pub/c/elektronnaya-kniga/cover_max1500/121626-dzhoan-ketlin-rouling-garri-potter-i-filosofskiy-kamen.jpg"
+                                     class="card-img-top eximg" alt="...">
+                                <div class="card-body ">
+
+                                </div>
+
+                        </div>
+
+                    </div>
+                    <div class="row  m-0" style="background-color: aquamarine">
+                        <div class="col-4">
+
+                                <img src="https://cv2.litres.ru/pub/c/elektronnaya-kniga/cover_max1500/121626-dzhoan-ketlin-rouling-garri-potter-i-filosofskiy-kamen.jpg"
+                                     class="card-img-top eximg" alt="...">
+                                <div class="card-body ">
+
+                                </div>
+
+                        </div>
+                        <div class="col-4">
+
+                                <img src="https://cv2.litres.ru/pub/c/elektronnaya-kniga/cover_max1500/121626-dzhoan-ketlin-rouling-garri-potter-i-filosofskiy-kamen.jpg"
+                                     class="card-img-top eximg" alt="...">
+                                <div class="card-body ">
+
+                                </div>
+
+                        </div>
+                        <div class="col-4">
+
+                                <img src="https://cv2.litres.ru/pub/c/elektronnaya-kniga/cover_max1500/121626-dzhoan-ketlin-rouling-garri-potter-i-filosofskiy-kamen.jpg"
+                                     class="card-img-top eximg" alt="...">
+                                <div class="card-body ">
+
+                                </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+    <div class="jumbotron row m-0">
+    <div th:each="book : ${userBooks}" class="col-2">
+        <div class="card cardlib">
+            <img th:src="@{'/viewuserbook/'+${book.getCover()}}" class="card-img-top libimg" alt="...">
+            <div class="card-body ">
+                <h5 class="card-title m-0" th:text="${book.getBook().getTitle()}">Harry Potter и принц персии</h5>
+                <p class="card-text m-0" th:text="${book.getBook().getAuthor().getName()}">Some quick example </p>
+                <form th:action="@{/addbooktoexchange}" method="POST">
+                    <input type="hidden" th:value="${book.getId()}" name="id">
+                    <input type="hidden" value="userBook" name="type">
+                    <button type="submit" href="#" class="btn btn-success m-0">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <div class="container-fluid row m-0" style="background-color: beige">
+        <div th:each="book : ${books}" class="col-2">
+            <div class="card cardlib">
+                <img th:src="@{'/viewbookex/'+${book.getCover()}}" class="card-img-top libimg" alt="...">
+                <div class="card-body ">
+                    <h5 class="card-title m-0" th:text="${book.getTitle()}">Harry Potter и принц персии</h5>
+                    <p class="card-text m-0" th:text="${book.getAuthor().getName()}">Some quick example </p>
+                    <form th:action="@{/addbooktoexchange}" method="POST">
+                        <input type="hidden" th:value="${book.getId()}" name="id">
+                        <input type="hidden" value="book" name="type">
+                        <button type="submit" href="#" class="btn btn-success m-0">Add</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+
+
+</html>
