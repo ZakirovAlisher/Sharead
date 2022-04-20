@@ -37,4 +37,9 @@ public class ExchangeServiceImpl implements ExchangeService {
 
     @Override
     public void deleteExchange(Exchanges book) {exchangeRepository.delete(book);}
+
+    @Override
+    public  List<Exchanges> getExchangesByStatus(String status) {
+        return exchangeRepository.getExchangesByStatusOrderByDateDesc(status);
+    }
 }

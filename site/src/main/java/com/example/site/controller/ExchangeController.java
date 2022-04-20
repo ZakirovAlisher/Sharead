@@ -4,14 +4,17 @@ import com.example.site.domain.Authors;
 import com.example.site.domain.Books;
 import com.example.site.domain.Exchanges;
 import com.example.site.domain.Genres;
+import com.example.site.domain.Offers;
 import com.example.site.domain.UserBooks;
 import com.example.site.domain.Users;
 import com.example.site.service.AuthorService;
 import com.example.site.service.BookService;
 import com.example.site.service.ExchangeService;
 import com.example.site.service.GenreService;
+import com.example.site.service.OfferService;
 import com.example.site.service.UserBookService;
 import com.example.site.service.UserService;
+import com.example.site.util.ExchangeStatus;
 import com.example.site.util.ExchangeWebRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,22 +60,89 @@ public class ExchangeController {
     @Autowired
     private ExchangeService exchangeService;
 
+    @Autowired
+    private OfferService offerService;
+
     @GetMapping(value = "/")
     public String exchanges(Model model){
         model.addAttribute("currentUser", getUserData());
 
-        model.addAttribute("exchanges", this.exchangeService.getAllExchanges());
+        model.addAttribute("exchangesOpen",
+                           this.exchangeService.getExchangesByStatus(ExchangeStatus.OPENED));
+        model.addAttribute("exchangesFreeze",
+                           this.exchangeService.getExchangesByStatus(ExchangeStatus.FREEZED));
 
         return "exchanges";
     }
 
+    @GetMapping(value = "/exchangeDetails/{id}")
+    public String exchangeDetails(Model m ,@PathVariable(name = "id") Long id){
+
+        Exchanges exchange = this.exchangeService.getExchange(id);
+
+        m.addAttribute("exchange", exchange);
+        m.addAttribute("offers", this.offerService.getByExchange(exchange));
+
+
+        return "exchangeDetails";
+    }
+
+    @PostMapping(value = "/postOffer")
+    public String addOfferToExchange(
+            @RequestParam(name = "exchange_id") Long exchangeId,
+            @RequestParam(name = "comment") String comment) {
+
+        List<UserBooks> offerBooks = new ArrayList<>();
+
+        for (Long id:this.exchangeWebRequest.getOfferBooks()) {
+            UserBooks userBook = this.userBookService.getBook(id);
+            offerBooks.add(userBook);
+        }
+
+        Offers offer = new Offers();
+        offer.setExchange(this.exchangeService.getExchange(exchangeId));
+        offer.setComment(comment);
+        offer.setDate(new Date());
+        offer.setUser(getUserData());
+        offer.setUserBooks(offerBooks);
+
+        this.offerService.saveOffer(offer);
+        this.exchangeWebRequest.setOfferBooks(new ArrayList<>());
+
+        return "redirect:/exchangeDetails" + exchangeId;
+    }
+
+    @PostMapping(value = "/pickOffer")
+    public String pickOffer(
+            @RequestParam(name = "exchange_id") Long exchangeId,
+            @RequestParam(name = "offer_id") Long offerId) {
+
+        Offers offer = this.offerService.getOffer(offerId);
+        offer.setPicked(true);
+
+        Exchanges exchange = this.exchangeService.getExchange(exchangeId);
+
+        exchange.setStatus(ExchangeStatus.FREEZED);
+
+        //todo: отправка эмеила оферисту
+        //todo: в профиле чтоб можно было связаться в чате
+
+
+
+        this.offerService.saveOffer(offer);
+        this.exchangeService.saveExchange(exchange);
+
+        this.exchangeWebRequest.setOfferBooks(new ArrayList<>());
+
+        return "redirect:/exchangeDetails" + exchangeId;
+    }
 
     @GetMapping(value = "/createExchange")
     public String createExchange(Model model) {
 
-        List<UserBooks> userBooks = userBookService.getAllBooksByUser(getUserData());
+        List<UserBooks> userBooks = this.userBookService.getAllBooksByUser(getUserData());
 
-        List<Books> books = bookService.getAllBooks();
+        List<Books> books = this.bookService.getAllBooks();
 
 
 
@@ -136,6 +206,11 @@ public class ExchangeController {
             this.exchangeWebRequest.addBook(id);
         }
 
+        if (type.equals("offerBook")){
+            if(exchangeWebRequest.getOfferBooks().size() != 6)
+                this.exchangeWebRequest.addOfferBook(id);
+        }
+
 //        if (type.equals("genre")){
 //            this.exchangeWebRequest.addGenre(id);
 //        }
@@ -160,6 +235,10 @@ public class ExchangeController {
 
         if (type.equals("book")){
             this.exchangeWebRequest.getBooks().remove(id);
+        }
+
+        if (type.equals("offerBook")){
+            this.exchangeWebRequest.getOfferBooks().remove(id);
         }
 
 //        if (type.equals("genre")){

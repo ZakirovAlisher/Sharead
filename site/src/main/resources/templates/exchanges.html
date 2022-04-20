@@ -9,7 +9,7 @@
     <div class="   m-0 " style="margin: 0 auto" >
 
 
-        <div th:each="exchange : ${exchanges}" class=" " style="margin-bottom: 3em !important;">
+        <div th:each="exchange : ${exchangesOpen}" class=" " style="margin-bottom: 3em !important; background-color: greenyellow">
             <a  class="row  m-0" th:href="@{'/exchangeDetails/'+${exchange.getId()}}" style="width: 100% !important;">
             <div class="col-5" >
                 <div class="row  m-0" style="background-color: #b4de62">
@@ -52,6 +52,49 @@
             </a>
         </div>
 
+
+        <div th:each="exchange : ${exchangesFreeze}" class=" " style="margin-bottom: 3em !important; background-color: aqua">
+            <a  class="row  m-0" th:href="@{'/exchangeDetails/'+${exchange.getId()}}" style="width: 100% !important;">
+                <div class="col-5" >
+                    <div class="row  m-0" style="background-color: #b4de62">
+                        <div th:each="book : ${exchange.getUserBooks()}" class="col-4">
+                            <img th:src="@{'/viewuserbook/'+${book.getCover()}}"
+                                 class="card-img-top eximg" alt="...">
+                            <div class="card-body ">
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="col-2" style="margin-top: 3em !important;">
+                    <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-0.jpg" class="swap"/>
+                </div>
+
+                <div class="col-5" >
+                    <div class="row  m-0" style="background-color: #b4de62">
+                        <div th:each="book : ${exchange.getBooks()}" class="col-4">
+
+                            <img th:src="@{'/viewbookex/'+${book.getCover()}}"
+                                 class="card-img-top eximg" alt="...">
+
+                            <div class="card-body ">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </a>
+        </div>
     </div>
 
 

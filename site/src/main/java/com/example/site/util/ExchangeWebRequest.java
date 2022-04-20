@@ -22,16 +22,24 @@ public class ExchangeWebRequest {
     //Map<String, ArrayList<Long>> exchanges = new HashMap<>();
     List<Long> books = new ArrayList<>();
 
+    List<Long> offerBooks = new ArrayList<>();
+
+
     public List<Long> getUserBooks() {
         return userBooks;
     }
-
+    public List<Long> getOfferBooks() {
+        return offerBooks;
+    }
 
     public void addUserBook(final Long userBook) {
         this.userBooks.add(userBook);
     }
     public void addBook(final Long book) {
         this.books.add(book);
+    }
+    public void addOfferBook(final Long book) {
+        this.offerBooks.add(book);
     }
 
     public void setUserBooks(final List<Long> userBooks) {
@@ -42,7 +50,9 @@ public class ExchangeWebRequest {
         return books;
     }
 
-
+    public void setOfferBooks(final List<Long> books) {
+        this.offerBooks = books;
+    }
     public void setBooks(final List<Long> books) {
         this.books = books;
     }

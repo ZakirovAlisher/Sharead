@@ -14,4 +14,6 @@ public interface ExchangeService {
     Exchanges getExchange(Long id);
 
     void deleteExchange(Exchanges book);
+
+    List<Exchanges> getExchangesByStatus(String status);
 }

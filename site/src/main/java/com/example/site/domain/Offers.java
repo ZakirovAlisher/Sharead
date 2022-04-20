@@ -1,6 +1,5 @@
 package com.example.site.domain;
 
-import com.example.site.util.ExchangeStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,11 +17,11 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "exchanges")
+@Table(name = "offers")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Exchanges {
+public class Offers {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,23 +34,17 @@ public class Exchanges {
     @Column(name = "comment")
     private String comment;
 
-    @Column(name = "status")
-    private String status = ExchangeStatus.OPENED;
+    @Column(name = "picked")
+    private boolean isPicked = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Users user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Exchanges exchange;
+
     @ManyToMany(fetch = FetchType.LAZY)
     private List<UserBooks> userBooks;
 
-
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    private List<Genres> genres;
-//
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    private List<Authors> authors;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Books> books;
 
 }
