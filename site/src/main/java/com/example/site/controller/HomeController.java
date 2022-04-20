@@ -18,12 +18,6 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/")
-    public String index(Model model){
-        model.addAttribute("currentUser", getUserData());
-        return "exchanges";
-    }
-
     @GetMapping(value = "/profile")
     @PreAuthorize("isAuthenticated()")
     public String profile(Model m){

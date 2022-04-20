@@ -3,62 +3,60 @@
 
 <div layout:fragment="site_content" class="container-fluid libcontainer m-0" >
     <div class="text-center">
-        <a href="/createExchange" class="btn btn-danger">Create Exchange</a>
+        <a href="/createExchange" class="btn btn-danger m-3">Create Exchange</a>
+    </div>
+
+    <div class="   m-0 " style="margin: 0 auto" >
+
+
+        <div th:each="exchange : ${exchanges}" class=" " style="margin-bottom: 3em !important;">
+            <a  class="row  m-0" th:href="@{'/exchangeDetails/'+${exchange.getId()}}" style="width: 100% !important;">
+            <div class="col-5" >
+                <div class="row  m-0" style="background-color: #b4de62">
+                    <div th:each="book : ${exchange.getUserBooks()}" class="col-4">
+                            <img th:src="@{'/viewuserbook/'+${book.getCover()}}"
+                                 class="card-img-top eximg" alt="...">
+                        <div class="card-body ">
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+            <div class="col-2" style="margin-top: 3em !important;">
+                <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-0.jpg" class="swap"/>
+            </div>
+
+            <div class="col-5" >
+                <div class="row  m-0" style="background-color: #b4de62">
+                    <div th:each="book : ${exchange.getBooks()}" class="col-4">
+
+                            <img th:src="@{'/viewbookex/'+${book.getCover()}}"
+                                 class="card-img-top eximg" alt="...">
+
+                        <div class="card-body ">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+            </a>
+        </div>
+
     </div>
 
 
 
-        <div class="jumbotron row m-0" >
-        <div class="col-5" >
-            <div class="card cardlib">
-                <img src="https://upload.wikimedia.org/wikipedia/ru/b/b4/Harry_Potter_and_the_Philosopher%27s_Stone_%E2%80%94_movie.jpg" class="card-img-top libimg" alt="...">
-                <div class="card-body ">
-                    <h5 class="card-title m-0">Harry Potter и принц персии</h5>
-                    <p class="card-text m-0">Some quick example </p>
-                    <a href="#" class="btn btn-danger m-0">Remove</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-2" >
-            <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-0.jpg" class="swap"/>
-        </div>
-        <div class="col-5" >
-            <div class="card cardlib">
-                <img src="https://anylang.net/sites/default/files/covers/ss500.jpg" class="card-img-top libimg" alt="...">
-                <div class="card-body ">
-                    <h5 class="card-title m-0">Горе о Тума</h5>
-                    <p class="card-text m-0">Some quick example text </p>
-                    <a href="#" class="btn btn-danger m-0">Remove</a>
-                </div>
-            </div>
-        </div>
-        </div>
 
-        <div class="jumbotron  row m-0" >
-        <div class="col-5" >
-            <div class="card cardlib" >
-                <img src="https://lavnik.net/wp-content/uploads/2017/03/o-o-e1489090416858.jpeg" class="card-img-top libimg" alt="...">
-                <div class="card-body ">
-                    <h5 class="card-title m-0">1984</h5>
-                    <p class="card-text m-0">Дж Оруел </p>
-                    <a href="#" class="btn btn-danger m-0">Remove</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-2" >
-            <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-0.jpg" class="swap"/>
-        </div>
-        <div class="col-5" >
-            <div class="card cardlib">
-                <img src="https://cdn.f.kz/prod/1177/1176176_550.jpg" class="card-img-top libimg" alt="...">
-                <div class="card-body ">
-                    <h5 class="card-title m-0">Эра Независимости</h5>
-                    <p class="card-text m-0">Назарбаев</p>
-                    <a href="#" class="btn btn-danger m-0">Remove</a>
-                </div>
-            </div>
-        </div>
-        </div>
 
 
 </div>

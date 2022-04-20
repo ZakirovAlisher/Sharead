@@ -55,10 +55,20 @@ public class ExchangeController {
     private String viewPath;
 
     @Autowired
-   private ExchangeService exchangeService;
+    private ExchangeService exchangeService;
+
+    @GetMapping(value = "/")
+    public String exchanges(Model model){
+        model.addAttribute("currentUser", getUserData());
+
+        model.addAttribute("exchanges", this.exchangeService.getAllExchanges());
+
+        return "exchanges";
+    }
+
 
     @GetMapping(value = "/createExchange")
-    public String index(Model model) {
+    public String createExchange(Model model) {
 
         List<UserBooks> userBooks = userBookService.getAllBooksByUser(getUserData());
 
