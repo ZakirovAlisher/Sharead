@@ -27,3 +27,174 @@
     width: 7em;
     height: 6em;
  }
+
+p,*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --primary_col: #303134;
+    --secondary_col: #202124;
+}
+
+body{
+    color:#fff;
+    font-size: 14px;
+    background-color: var(--primary_col);
+
+}
+
+.exchange{
+    background-color: var(--secondary_col);
+
+    padding: 50px 0;
+    margin: 15px 0;
+    border-radius: 15px;
+}
+
+.user{
+    padding-left:50px;
+    text-align: center;
+}
+.user p{
+    margin-top: 10px;
+}
+.user img{
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.block{
+    padding: 0 35px;
+}
+
+.block_date{
+    display: flex;
+    justify-content: end;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.block_exchange{
+    padding: 10px;
+
+    display: flex;
+    justify-content: space-around;
+    gap: 5px;
+}
+
+.block_exchange_book{
+    padding: 10px;
+    /* margin: 0 10px; */
+    background-color:  var(--primary_col);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.block_exchange_book img{
+    width: 150px;
+    height: 200px;
+    object-position: center;
+    object-fit: cover;
+    margin-bottom: 5px;
+}
+
+.block_exchange_change{
+    display: flex;
+    align-items: center;
+    margin: 0 5px;
+}
+
+.block_exchange_change img{
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+/* Media Queries - Adaptive Layouts */
+
+@media (max-width:1200px){
+    .exchange{
+        padding: 30px 0;
+    }
+}
+
+
+@media (max-width:993px){
+    .block_exchange{
+        justify-content: space-between;
+    }
+    .exchange{
+        padding: 20px 0;
+    }
+    .block_exchange_book{
+        padding: 5px;
+    }
+    .block_exchange_book img{
+        width: 120px;
+        height: 180px;
+    }
+    .user img{
+        width: 100px;
+        height: 100px;
+    }
+    .block_exchange_change img{
+        width: 50px;
+        height: 50px;
+    }
+}
+
+
+@media (max-width:768px){
+    .exchange{
+        padding: 10px 0;
+    }
+    .block_exchange_book{
+        padding: 5px;
+    }
+    .block_exchange_book img{
+        width: 100%;
+        height: 130px;
+    }
+    .user img{
+        width: 70px;
+        height: 70px;
+    }
+    .block_date{
+        font-size: 14px;
+    }
+    .user{
+        margin-top: 20px;
+    }
+}
+
+
+
+@media (max-width:575px){
+    body{
+        font-size: 12px;
+    }
+
+    .block_exchange_book img{
+        width: 100%;
+        height: 80px;
+    }
+
+    .user img{
+        width: 50px;
+        height: 50px;
+    }
+    .block_exchange_change img{
+        width: 32px;
+        height: 32px;
+    }
+}

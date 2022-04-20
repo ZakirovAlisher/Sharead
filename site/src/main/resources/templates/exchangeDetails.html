@@ -1,0 +1,153 @@
+<html   xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorate = "layout/loginLayout.html" >
+
+<div layout:fragment="site_content" class="container-fluid libcontainer m-0" >
+
+    <main class="wrapper">
+        <div class="exchanges">
+            <div class="">
+
+                <div class="exchange">
+                    <div class="row">
+                        <div class="col-3 user">
+                            <img src="./img/user.jpg" alt="userLogo">
+                            <p>
+                                Alisher
+                            </p>
+                        </div>
+                        <div class="col-9 block">
+                            <div class="block_date">
+                                20.10.2021
+                            </div>
+                            <div class="block_desc">
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius ea voluptates dolor quam vitae non recusandae?
+                            </div>
+                            <div class="block_exchange">
+
+                                        <div class="col-5" >
+                                            <div class="row  m-0" style="background-color: #b4de62">
+                                                <div th:each="book : ${exchange.getUserBooks()}" class="col-4">
+                                                    <img th:src="@{'/viewuserbook/'+${book.getCover()}}"
+                                                         class="card-img-top eximg" alt="...">
+                                                    <div class="card-body ">
+
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="col-2" style="margin-top: 3em !important;">
+                                            <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-0.jpg" class="swap"/>
+                                        </div>
+
+                                        <div class="col-5" >
+                                            <div class="row  m-0" style="background-color: #b4de62">
+                                                <div th:each="book : ${exchange.getBooks()}" class="col-4">
+
+                                                    <img th:src="@{'/viewbookex/'+${book.getCover()}}"
+                                                         class="card-img-top eximg" alt="...">
+
+                                                    <div class="card-body ">
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exchange">
+                    <div class="row">
+                        <div class="col-3 user">
+                            <div class="user__logo">
+                                <img src="./img/user.jpg" alt="userLogo">
+                            </div>
+                            admin123
+                        </div>
+                        <div class="col-9 block">
+                            <div class="block_date">
+                                20.10.2021
+                            </div>
+                            <div class="block_desc">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio, cum. Illum adipisci maxime aliquam cum deleniti inventore error enim id accusantium neque, quidem, voluptas recusandae eius nulla qui eaque architecto?
+                            </div>
+                            <div class="block_exchange">
+                                <div class="block_exchange_book book1">
+                                    <img src="./img/eRemark.jpg" alt="bookImg">
+                                    <p>Три товарища</p>
+                                    <p class="font-italic">Э. Ремарк</p>
+                                </div>
+                                <div class="block_exchange_book book1">
+                                    <img src="./img/master&margarita.jpg" alt="bookImg">
+                                    <p>Master and Margarita</p>
+                                    <p class="font-italic">M. Bulgakov</p>
+                                </div>
+                                <div class="block_exchange_book book1">
+                                    <img src="./img/angels&demons.jpg" alt="bookImg">
+                                    <p>Angels and Demons</p>
+                                    <p class="font-italic">Dan Brown</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exchange">
+                    <div class="row">
+                        <div class="col-3 user">
+                            <div class="user__logo">
+                                <img src="./img/user.jpg" alt="userLogo">
+                            </div>
+                            Samat
+                        </div>
+                        <div class="col-9 block">
+                            <div class="block_date">
+                                20.10.2021
+                            </div>
+                            <div class="block_desc">
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius ea voluptates dolor quam vitae non recusandae?
+                            </div>
+                            <div class="block_exchange">
+                                <div class="block_exchange_book book1">
+                                    <img src="./img/eRemark.jpg" alt="bookImg">
+                                    <p>Три товарища</p>
+                                    <p class="font-italic">Э. Ремарк</p>
+                                </div>
+                                <div class="block_exchange_change">
+                                    <img src="./img/exchange.jpg" alt="changeIcon">
+                                </div>
+                                <div class="block_exchange_book book2">
+                                    <img src="./img/master&margarita.jpg" alt="bookImg">
+                                    <p>Master and Margarita</p>
+                                    <p class="font-italic">M. Bulgakov</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+
+
+
+
+
+
+</div>
+
+
+</html>
