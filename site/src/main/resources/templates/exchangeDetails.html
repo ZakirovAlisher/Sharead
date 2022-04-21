@@ -8,19 +8,20 @@
 
                 <div class="exchange">
                     <div class="row">
-                        <div class="col-3 user">
-                            <img src="./img/user.jpg" alt="userLogo">
-                            <p>
+                        <div class="col-12 user">
+                            <img th:src="@{'/viewphoto/'+${exchange.getUser().getUserAvatar()}}" alt="userLogo">
+                            <p th:text="${exchange.getUser().getFullName()}">
                                 Alisher
                             </p>
-                        </div>
-                        <div class="col-9 block">
-                            <div class="block_date">
+                            <div class="block_date" th:text="${exchange.getDate()}">
                                 20.10.2021
                             </div>
-                            <div class="block_desc">
+                            <div class="block_desc" th:text="${exchange.getComment()}">
                                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius ea voluptates dolor quam vitae non recusandae?
                             </div>
+                        </div>
+                        <div class="col-12 block">
+
                             <div class="block_exchange">
 
                                         <div class="col-5" >
@@ -67,77 +68,80 @@
                     </div>
                 </div>
 
-                <div class="exchange">
+                <div th:each="offer : ${offers}" class="exchange">
                     <div class="row">
-                        <div class="col-3 user">
+                        <div class="col-12 user">
                             <div class="user__logo">
-                                <img src="./img/user.jpg" alt="userLogo">
+                                <img th:src="@{'/viewphoto/'+${offer.getUser().getUserAvatar()}}" alt="userLogo">
                             </div>
+                            <p th:text="${offer.getUser().getFullName()}">
                             admin123
-                        </div>
-                        <div class="col-9 block">
-                            <div class="block_date">
+                            </p>
+                            <div class="block_date" th:text="${offer.getDate()}">
                                 20.10.2021
                             </div>
-                            <div class="block_desc">
+                            <div class="block_desc" th:text="${offer.getComment()}">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio, cum. Illum adipisci maxime aliquam cum deleniti inventore error enim id accusantium neque, quidem, voluptas recusandae eius nulla qui eaque architecto?
                             </div>
+                        </div>
+                        <div class="col-12 block">
+
                             <div class="block_exchange">
-                                <div class="block_exchange_book book1">
-                                    <img src="./img/eRemark.jpg" alt="bookImg">
-                                    <p>Три товарища</p>
-                                    <p class="font-italic">Э. Ремарк</p>
+
+                                <div th:each="userBook : ${offer.getUserBooks()}" class="block_exchange_book book1">
+                                    <img th:src="@{'/viewuserbook/'+${userBook.getCover()}}" alt="bookImg">
+                                    <p th:text="${userBook.getBook().getTitle()}">Три товарища</p>
+                                    <p th:text="${userBook.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
                                 </div>
-                                <div class="block_exchange_book book1">
-                                    <img src="./img/master&margarita.jpg" alt="bookImg">
-                                    <p>Master and Margarita</p>
-                                    <p class="font-italic">M. Bulgakov</p>
-                                </div>
-                                <div class="block_exchange_book book1">
-                                    <img src="./img/angels&demons.jpg" alt="bookImg">
-                                    <p>Angels and Demons</p>
-                                    <p class="font-italic">Dan Brown</p>
-                                </div>
+
+
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="exchange">
-                    <div class="row">
-                        <div class="col-3 user">
-                            <div class="user__logo">
-                                <img src="./img/user.jpg" alt="userLogo">
-                            </div>
-                            Samat
-                        </div>
-                        <div class="col-9 block">
-                            <div class="block_date">
-                                20.10.2021
-                            </div>
-                            <div class="block_desc">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius ea voluptates dolor quam vitae non recusandae?
-                            </div>
-                            <div class="block_exchange">
-                                <div class="block_exchange_book book1">
-                                    <img src="./img/eRemark.jpg" alt="bookImg">
-                                    <p>Три товарища</p>
-                                    <p class="font-italic">Э. Ремарк</p>
-                                </div>
-                                <div class="block_exchange_change">
-                                    <img src="./img/exchange.jpg" alt="changeIcon">
-                                </div>
-                                <div class="block_exchange_book book2">
-                                    <img src="./img/master&margarita.jpg" alt="bookImg">
-                                    <p>Master and Margarita</p>
-                                    <p class="font-italic">M. Bulgakov</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
 
             </div>
+            <div class="row  m-0" style="background-color: #b4de62">
+                <div th:each="book : ${currentOfferBooks}" class="col-4">
+                    <a th:href="@{'/removebookfromoffer?id='+${book.getId()} + '&exchange_id=' +${exchange.getId()}}">
+                        <img th:src="@{'/viewuserbook/'+${book.getCover()}}"
+                             class="card-img-top eximg" alt="..."> </a>
+                    <div class="card-body ">
+
+                    </div>
+
+                </div>
+
+
+            </div>
+            <form method="post" th:action="@{'/postOffer'}">
+                <button class="btn btn-dark m-3"   >+ SUBMIT +</button> <br>
+                <input type="hidden" name="exchange_id" th:value="${exchange.getId()}">
+                <textarea type="text" name="comment"></textarea>
+            </form>
+            <div class="text-center" style="margin: 0 auto">
+                <h3> Your books:</h3>
+            </div>
+            <div class="jumbotron row m-0">
+                <div th:each="book : ${userBooks}" class="col-2">
+                    <div class="card cardlib">
+                        <img th:src="@{'/viewuserbook/'+${book.getCover()}}" class="card-img-top libimg" alt="...">
+                        <div class="card-body ">
+                            <h5 class="card-title m-0" th:text="${book.getBook().getTitle()}">Harry Potter и принц персии</h5>
+                            <p class="card-text m-0" th:text="${book.getBook().getAuthor().getName()}">Some quick example </p>
+                            <form th:action="@{/addbooktooffer}" method="POST">
+                                <input type="hidden" th:value="${book.getId()}" name="id">
+                                <input type="hidden" value="offerBook" name="type">
+                                <input type="hidden" name="exchange_id" th:value="${exchange.getId()}">
+                                <button type="submit" href="#" class="btn btn-success m-0">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 

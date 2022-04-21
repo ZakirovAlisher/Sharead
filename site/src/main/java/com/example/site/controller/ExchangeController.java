@@ -77,12 +77,22 @@ public class ExchangeController {
 
     @GetMapping(value = "/exchangeDetails/{id}")
     public String exchangeDetails(Model m ,@PathVariable(name = "id") Long id){
+        List<UserBooks> userBooks = this.userBookService.getAllBooksByUser(getUserData());
+        List<UserBooks> currentOfferBooks = new ArrayList<>();
+
 
         Exchanges exchange = this.exchangeService.getExchange(id);
 
+        for (Long bookId:this.exchangeWebRequest.getOfferBooks()) {
+            UserBooks userBook = this.userBookService.getBook(bookId);
+            currentOfferBooks.add(userBook);
+            userBooks.remove(userBook);
+        }
+
         m.addAttribute("exchange", exchange);
         m.addAttribute("offers", this.offerService.getByExchange(exchange));
-
+        m.addAttribute("currentOfferBooks", currentOfferBooks);
+        m.addAttribute("userBooks", userBooks);
 
         return "exchangeDetails";
     }
@@ -109,7 +119,7 @@ public class ExchangeController {
         this.offerService.saveOffer(offer);
         this.exchangeWebRequest.setOfferBooks(new ArrayList<>());
 
-        return "redirect:/exchangeDetails" + exchangeId;
+        return "redirect:/exchangeDetails/" + exchangeId;
     }
 
     @PostMapping(value = "/pickOffer")
@@ -134,7 +144,7 @@ public class ExchangeController {
 
         this.exchangeWebRequest.setOfferBooks(new ArrayList<>());
 
-        return "redirect:/exchangeDetails" + exchangeId;
+        return "redirect:/exchangeDetails/" + exchangeId;
     }
 
     @GetMapping(value = "/createExchange")
@@ -190,6 +200,30 @@ public class ExchangeController {
         return "createExchange";
     }
 
+    @PostMapping(value = "/addbooktooffer")
+    public String addbooktooffer(
+            @RequestParam(name = "id") Long id,
+            @RequestParam(name = "type") String type,
+            @RequestParam(name = "exchange_id") Long exchangeId
+            ) {
+
+        if (type.equals("offerBook")){
+            if(exchangeWebRequest.getOfferBooks().size() != 6)
+                this.exchangeWebRequest.addOfferBook(id);
+        }
+
+        return "redirect:/exchangeDetails/" + exchangeId;
+    }
+
+    @GetMapping(value = "/removebookfromoffer")
+    public String removebookfromoffer(
+            @RequestParam(name = "id") Long id,
+            @RequestParam(name = "exchange_id") Long exchangeId) {
+
+            this.exchangeWebRequest.getOfferBooks().remove(id);
+
+        return "redirect:/exchangeDetails/" + exchangeId;
+    }
 
     @PostMapping(value = "/addbooktoexchange")
     public String addBookToExchange(
@@ -209,6 +243,7 @@ public class ExchangeController {
         if (type.equals("offerBook")){
             if(exchangeWebRequest.getOfferBooks().size() != 6)
                 this.exchangeWebRequest.addOfferBook(id);
+            return "redirect:/createExchange";
         }
 
 //        if (type.equals("genre")){
