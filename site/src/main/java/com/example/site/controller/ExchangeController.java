@@ -89,10 +89,24 @@ public class ExchangeController {
             userBooks.remove(userBook);
         }
 
+        boolean myExchange = false;
+        boolean canOffer = false;
+        if (!exchange.getUser().getId().equals(getUserData().getId()) && !exchange.getStatus().equals(ExchangeStatus.FREEZED)
+                && !exchange.getStatus().equals(ExchangeStatus.CLOSED)
+        ){
+            canOffer = true;
+        }
+        if (exchange.getUser().getId().equals(getUserData().getId()) && !exchange.getStatus().equals(ExchangeStatus.FREEZED)
+                && !exchange.getStatus().equals(ExchangeStatus.CLOSED)){
+            myExchange = true;
+        }
+
         m.addAttribute("exchange", exchange);
         m.addAttribute("offers", this.offerService.getByExchange(exchange));
         m.addAttribute("currentOfferBooks", currentOfferBooks);
         m.addAttribute("userBooks", userBooks);
+        m.addAttribute("myExchange", myExchange);
+        m.addAttribute("canOffer", canOffer);
 
         return "exchangeDetails";
     }

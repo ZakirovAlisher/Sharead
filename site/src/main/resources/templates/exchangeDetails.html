@@ -69,7 +69,10 @@
                 </div>
 
                 <div th:each="offer : ${offers}" class="exchange">
-                    <div class="row">
+
+
+                    <div   class="row"  th:styleappend="${offer.isPicked()} ? 'background-color: darkred' : '' " >
+
                         <div class="col-12 user">
                             <div class="user__logo">
                                 <img th:src="@{'/viewphoto/'+${offer.getUser().getUserAvatar()}}" alt="userLogo">
@@ -98,6 +101,15 @@
                             </div>
                         </div>
                     </div>
+
+                    <div th:if="${myExchange}">
+                        <form method="post" th:action="@{'/pickOffer'}">
+                            <button class="btn btn-success m-3"   >ACCEPT OFFER</button> <br>
+                            <input type="hidden" name="offer_id" th:value="${offer.getId()}">
+                            <input type="hidden" name="exchange_id" th:value="${exchange.getId()}">
+                        </form>
+                    </div>
+
                 </div>
 
 
@@ -116,6 +128,8 @@
 
 
             </div>
+
+            <div th:if="${canOffer}">
             <form method="post" th:action="@{'/postOffer'}">
                 <button class="btn btn-dark m-3"   >+ SUBMIT +</button> <br>
                 <input type="hidden" name="exchange_id" th:value="${exchange.getId()}">
@@ -141,6 +155,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+
 
         </div>
     </main>
