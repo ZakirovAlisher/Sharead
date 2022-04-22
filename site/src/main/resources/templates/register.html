@@ -3,7 +3,7 @@
 
 <div layout:fragment="site_content" >
 
-    <div class="jumbotron shadow  text-center mt-5" style="width: 300px; margin: 0 auto;  background-color: #b4de62" >
+    <div class="jumbotron shadow  text-center mt-5" style="width: 300px; margin: 0 auto;  background-color: var(--secondary_col)" >
         <div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
         <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
     <form th:action="@{'/reg'}" method="post">

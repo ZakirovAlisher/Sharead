@@ -9,16 +9,19 @@
     <div class="row m-0">
 
 
-        <div th:each="book : ${userBooks}" class="col-6">
-            <div class="card cardlib">
+        <div th:each="book : ${userBooks}" class="col-6" style="">
+            <div class="card cardlib exchange" style="margin: 0 auto !important; background-color: var(--secondary_col)">
                 <img th:src="@{'/viewuserbook/'+${book.getCover()}}" class="card-img-top libimg" alt="...">
-                <div class="card-body ">
-                    <h5 class="card-title m-0" th:text="${book.getBook().getTitle()}">Harry Potter и принц персии</h5>
-                    <p class="card-text m-0" th:text="${book.getBook().getAuthor().getName()}">Some quick example </p>
+                <div class="card-body exchange">
+                    <h5 class="card-title m-0" style="font-size: 20px" th:text="${book.getBook().getTitle()}">Harry Potter и принц персии</h5>
+                    <p class="card-text m-0 italic" style="font-size: 20px" th:text="${book.getBook().getAuthor().getName()}">Some quick example </p>
                     <a href="#" class="btn btn-danger m-0">Remove</a>
                 </div>
             </div>
         </div>
+
+
+
 
     </div>
 
