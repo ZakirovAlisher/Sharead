@@ -31,9 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
 
-import javax.annotation.Nonnull;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -189,7 +187,7 @@ public class LibraryController {
         return resultText;
     }
 
-    public  int levenstain(@Nonnull String str1, @Nonnull String str2) {
+    public  int levenstain( String str1,  String str2) {
         // Массивы должны быть одинаковой длины, т.к. отражают две строки (или столбца) одной и той же таблицы (см. алгоритм расстояния Левенштейна)
         int[] Di_1 = new int[str2.length() + 1];
         int[] Di = new int[str2.length() + 1];

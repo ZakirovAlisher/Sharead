@@ -1,6 +1,7 @@
 package com.example.site.service;
 
 import com.example.site.domain.Exchanges;
+import com.example.site.domain.Users;
 
 import java.util.List;
 
@@ -16,4 +17,8 @@ public interface ExchangeService {
     void deleteExchange(Exchanges book);
 
     List<Exchanges> getExchangesByStatus(String status);
+
+    List<Exchanges> getMyApprovedExchanges(Users user);
+
+    List<Exchanges> getIApprovedExchanges(Users user);
 }

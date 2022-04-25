@@ -1,6 +1,8 @@
 package com.example.site.controller;
 
 import com.example.site.domain.Users;
+import com.example.site.service.ExchangeService;
+import com.example.site.service.OfferService;
 import com.example.site.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,10 +20,20 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ExchangeService exchangeService;
+
+    @Autowired
+    private OfferService offerService;
+
     @GetMapping(value = "/profile")
     @PreAuthorize("isAuthenticated()")
     public String profile(Model m){
         m.addAttribute("currentUser", getUserData());
+        //todo: approved exhcnages и в которых тебя апрвнули крч и ты апрувнул
+        m.addAttribute("myApproved", offerService.getMyApprovedOffers(getUserData()));
+        m.addAttribute("iApproved", offerService.getIApprovedOffers(getUserData()));
+
         return "profile";
     }
 

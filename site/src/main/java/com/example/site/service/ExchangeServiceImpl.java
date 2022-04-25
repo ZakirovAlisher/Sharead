@@ -2,6 +2,7 @@ package com.example.site.service;
 
 import com.example.site.domain.Books;
 import com.example.site.domain.Exchanges;
+import com.example.site.domain.Users;
 import com.example.site.repository.BookRepository;
 import com.example.site.repository.ExchangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,15 @@ public class ExchangeServiceImpl implements ExchangeService {
     @Override
     public  List<Exchanges> getExchangesByStatus(String status) {
         return exchangeRepository.getExchangesByStatusOrderByDateDesc(status);
+    }
+
+    @Override
+    public  List<Exchanges> getMyApprovedExchanges(Users user) {
+        return exchangeRepository.getExchangesByOffersAccepted(user);
+    }
+
+    @Override
+    public  List<Exchanges> getIApprovedExchanges(Users user) {
+        return exchangeRepository.getExchangesByOffersAcceptedByMe(user);
     }
 }

@@ -56,6 +56,101 @@
         </div>
     </form>
 
+    I Approved
+    <div th:each="offer : ${iApproved}" class="exchange">
+
+        <a  class="row  m-0" th:href="@{'/exchangeDetails/'+${offer.getExchange().getId()}}" style="width: 100% !important;">
+            <div class="col-5" >
+                <div class="user__logo">
+                    <img th:src="@{'/viewphoto/'+${offer.getExchange().getUser().getUserAvatar()}}" alt="userLogo" class="swap">
+                </div>
+                <p th:text="${offer.getExchange().getUser().getFullName()}">
+                    admin123
+                </p>
+                <div class="row  m-0" style="">
+                    <div th:each="book : ${offer.getExchange().getUserBooks()}" class="block_exchange_book book1 col-4">
+                        <img th:src="@{'/viewbookex/'+${book.getCover()}}" alt="bookImg">
+                        <p th:text="${book.getBook().getTitle()}">Три товарища</p>
+                        <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="col-2" style="margin-top: 3em !important;">
+                <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-0.jpg" class="swap"/>
+            </div>
+
+            <div class="col-5" >
+                <div class="user__logo">
+                    <img th:src="@{'/viewphoto/'+${offer.getUser().getUserAvatar()}}" alt="userLogo" class="swap">
+                </div>
+                <p th:text="${offer.getUser().getFullName()}">
+                    admin123
+                </p>
+                <div class="row  m-0" style=" ">
+                    <div th:each="book : ${offer.getUserBooks()}" class="block_exchange_book book1 col-4">
+                        <img th:src="@{'/viewuserbook/'+${book.getCover()}}" alt="bookImg">
+                        <p th:text="${book.getBook().getTitle()}">Три товарища</p>
+                        <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
+                    </div>
+                </div>
+
+
+            </div>
+        </a>
+    </div>
+
+    Меня апрувнули
+    <div th:each="offer : ${myApproved}" class="exchange">
+
+        <a  class="row  m-0" th:href="@{'/exchangeDetails/'+${offer.getExchange().getId()}}" style="width: 100% !important;">
+
+
+            <div class="col-5" >
+                <div class="user__logo">
+                    <img th:src="@{'/viewphoto/'+${offer.getUser().getUserAvatar()}}" alt="userLogo" class="swap">
+                </div>
+                <p th:text="${offer.getUser().getFullName()}">
+                    admin123
+                </p>
+                <div class="row  m-0" style=" ">
+                    <div th:each="book : ${offer.getUserBooks()}" class="block_exchange_book book1 col-4">
+                        <img th:src="@{'/viewuserbook/'+${book.getCover()}}" alt="bookImg" >
+                        <p th:text="${book.getBook().getTitle()}">Три товарища</p>
+                        <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2" style="margin-top: 3em !important;">
+                <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-0.jpg" class="swap"/>
+            </div>
+
+
+
+            <div class="col-5" >
+                <div class="user__logo">
+                    <img th:src="@{'/viewphoto/'+${offer.getExchange().getUser().getUserAvatar()}}" alt="userLogo" class="swap">
+                </div>
+                <p th:text="${offer.getExchange().getUser().getFullName()}">
+                    admin123
+                </p>
+                <div class="row  m-0" style="">
+                    <div th:each="book : ${offer.getExchange().getUserBooks()}" class="block_exchange_book book1 col-4">
+                        <img th:src="@{'/viewbookex/'+${book.getCover()}}" alt="bookImg"  >
+                        <p th:text="${book.getBook().getTitle()}">Три товарища</p>
+                        <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </a>
+    </div>
 
 </div>
 

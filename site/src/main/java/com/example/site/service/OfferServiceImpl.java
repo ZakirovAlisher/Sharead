@@ -2,6 +2,7 @@ package com.example.site.service;
 
 import com.example.site.domain.Exchanges;
 import com.example.site.domain.Offers;
+import com.example.site.domain.Users;
 import com.example.site.repository.ExchangeRepository;
 import com.example.site.repository.OfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +42,13 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public List<Offers> getByExchange(Exchanges exchange) { return offerRepository.findOffersByExchange(exchange);}
 
+    @Override
+    public  List<Offers> getMyApprovedOffers(Users user) {
+        return offerRepository.getExchangesByOffersAccepted(user);
+    }
+
+    @Override
+    public  List<Offers> getIApprovedOffers(Users user) {
+        return offerRepository.getExchangesByOffersAcceptedIApproved(user);
+    }
 }
