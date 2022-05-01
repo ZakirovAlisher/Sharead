@@ -217,7 +217,17 @@ public class LibraryController {
         return Math.min(Math.min(n1, n2), n3);
     }
 
-    
+    @PostMapping(value = "/removeBookFromLibrary")
+    public String removeBookFromLibrary(
+            @RequestParam(name = "book_id") Long id) {
+        UserBooks book = userBookService.getBook(id);
+        book.setRemoved(true);
+        userBookService.saveBook(book);
+
+        return "redirect:/library?success";
+
+    }
+
     private Users getUserData() {
         Authentication authontication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authontication instanceof AnonymousAuthenticationToken)) {

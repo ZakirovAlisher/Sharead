@@ -15,7 +15,10 @@
                 <div class="card-body exchange">
                     <h5 class="card-title m-0" style="font-size: 20px" th:text="${book.getBook().getTitle()}">Harry Potter и принц персии</h5>
                     <p class="card-text m-0 italic" style="font-size: 20px" th:text="${book.getBook().getAuthor().getName()}">Some quick example </p>
-                    <a href="#" class="btn btn-danger m-0">Remove</a>
+                    <form method="post" th:action="@{'/removeBookFromLibrary'}">
+                        <button class="btn btn-danger  m-3"   >Remove</button> <br>
+                        <input type="hidden" name="book_id" th:value="${book.getId()}">
+                    </form>
                 </div>
             </div>
         </div>

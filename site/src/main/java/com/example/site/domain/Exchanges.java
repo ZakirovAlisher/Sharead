@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -42,15 +43,14 @@ public class Exchanges {
     @ManyToOne(fetch = FetchType.LAZY)
     private Users user;
 
+    @Column(name = "first_confirm")
+    private Long firstConfirm = 0L;
+
+    @Column(name = "second_confirm")
+    private Long secondConfirm = 0L;
+
     @ManyToMany(fetch = FetchType.LAZY)
     private List<UserBooks> userBooks;
-
-
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    private List<Genres> genres;
-//
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    private List<Authors> authors;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Books> books;

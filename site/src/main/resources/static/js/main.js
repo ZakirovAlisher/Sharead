@@ -1,92 +1,97 @@
-'use strict';
-
-
-var messageForm = document.querySelector('#messageForm');
-var messageInput = document.querySelector('#message');
-var messageArea = document.querySelector('#messageArea');
-var connectingElement = document.querySelector('#connecting');
-
 var stompClient = null;
-var username = null;
+var notificationCount = 0;
 
+$(document).ready(function() {
+    console.log("Index page is ready");
+    connect();
+
+    $("#send").click(function() {
+        sendMessage();
+    });
+
+    $("#send-private").click(function() {
+        sendPrivateMessage();
+    });
+
+    $("#cancel").click(function() {
+        sendCancelMessage();
+    });
+
+    $("#confirm").click(function() {
+        sendConfirmMessage();
+    });
+
+    $("#notifications").click(function() {
+        resetNotificationCount();
+    });
+});
 
 function connect() {
-    username = document.querySelector('#username').innerText.trim();
-
-    var socket = new SockJS('/ws');
+    var socket = new SockJS('/our-websocket');
     stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        updateNotificationDisplay();
+        stompClient.subscribe('/topic/messages', function (message) {
+            showMessage(JSON.parse(message.body).content);
+        });
 
-    stompClient.connect({}, onConnected, onError);
+        stompClient.subscribe('/user/topic/private-messages', function (message) {
+            showMessage(JSON.parse(message.body).content );
+        });
+
+        stompClient.subscribe('/topic/global-notifications', function (message) {
+            notificationCount = notificationCount + 1;
+            updateNotificationDisplay();
+        });
+
+        stompClient.subscribe('/user/topic/private-notifications', function (message) {
+            notificationCount = notificationCount + 1;
+            updateNotificationDisplay();
+        });
+    });
 }
 
-// Connect to WebSocket Server.
-connect();
-
-function onConnected() {
-    // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/publicChatRoom', onMessageReceived);
-
-    // Tell your username to the server
-    stompClient.send("/app/chat.addUser",
-        {},
-        JSON.stringify({sender: username, type: 'JOIN'})
-    )
-
-    connectingElement.classList.add('hidden');
+function showMessage(message) {
+    $("#messages").append("<p>" + message + " </p>");
 }
 
-
-function onError(error) {
-    connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
-    connectingElement.style.color = 'red';
+function sendMessage() {
+    console.log("sending message");
+    stompClient.send("/ws/message", {}, JSON.stringify({'messageContent': $("#message").val()}));
 }
 
-
-function sendMessage(event) {
-    var messageContent = messageInput.value.trim();
-    if(messageContent && stompClient) {
-        var chatMessage = {
-            sender: username,
-            content: messageInput.value,
-            type: 'CHAT'
-        };
-        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
-        messageInput.value = '';
-    }
-    event.preventDefault();
+function sendPrivateMessage() {
+    console.log("sending private message");
+    stompClient.send("/ws/private-message"  , {}, JSON.stringify({'messageContent': $("#private-message").val()
+    , 'opponent' : $("#opponent").val(), 'exchangeId' : $("#exchange_id").val(), 'me' : $("#me").val()
+    }));
 }
 
+function sendCancelMessage() {
+    console.log("sending private message");
+    stompClient.send("/ws/private-message"  , {}, JSON.stringify({'messageContent': "<b class='text-danger'>Your opponent canceled offer</b>"
+        , 'opponent' : $("#opponent").val(), 'exchangeId' : $("#exchange_id").val(), 'me' : $("#me").val()
+    }));
+}
 
-function onMessageReceived(payload) {
-    var message = JSON.parse(payload.body);
+function sendConfirmMessage() {
+    console.log("sending private message");
+    stompClient.send("/ws/private-message"  , {}, JSON.stringify({'messageContent': "<b class='text-success'>Your opponent confirms exchange. Was the exchange successful? Confirm or cancel</b>"
+        , 'opponent' : $("#opponent").val(), 'exchangeId' : $("#exchange_id").val(), 'me' : $("#me").val()
+    }));
+}
 
-    var messageElement = document.createElement('li');
-
-    if(message.type === 'JOIN') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' joined!';
-    } else if (message.type === 'LEAVE') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' left!';
+function updateNotificationDisplay() {
+    if (notificationCount == 0) {
+        $('#notifications').hide();
     } else {
-        messageElement.classList.add('chat-message');
-        var usernameElement = document.createElement('strong');
-        usernameElement.classList.add('nickname');
-        var usernameText = document.createTextNode(message.sender);
-        var usernameText = document.createTextNode(message.sender);
-        usernameElement.appendChild(usernameText);
-        messageElement.appendChild(usernameElement);
+        $('#notifications').show();
+        $('#notifications').text(notificationCount);
     }
-
-    var textElement = document.createElement('span');
-    var messageText = document.createTextNode(message.content);
-    textElement.appendChild(messageText);
-
-    messageElement.appendChild(textElement);
-
-    messageArea.appendChild(messageElement);
-    messageArea.scrollTop = messageArea.scrollHeight;
 }
 
-
-messageForm.addEventListener('submit', sendMessage, true);
+function resetNotificationCount() {
+    notificationCount = 0;
+    updateNotificationDisplay();
+}

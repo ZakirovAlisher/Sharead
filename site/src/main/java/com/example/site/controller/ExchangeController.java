@@ -161,6 +161,56 @@ public class ExchangeController {
         return "redirect:/exchangeDetails/" + exchangeId;
     }
 
+    @PostMapping(value = "/cancelOffer")
+    public String cancelOffer(
+            @RequestParam(name = "exchange_id") Long exchangeId,
+            @RequestParam(name = "offer_id") Long offerId) {
+
+        Offers offer = this.offerService.getOffer(offerId);
+        offer.setPicked(false);
+
+        Exchanges exchange = this.exchangeService.getExchange(exchangeId);
+
+        exchange.setStatus(ExchangeStatus.OPENED);
+        exchange.setFirstConfirm(0L);
+        exchange.setSecondConfirm(0L);
+        //todo: отправка эмеила оферисту
+
+
+
+        this.offerService.saveOffer(offer);
+        this.exchangeService.saveExchange(exchange);
+
+        this.exchangeWebRequest.setOfferBooks(new ArrayList<>());
+
+        return "redirect:/profile";
+    }
+
+    @PostMapping(value = "/confirmExchange")
+    public String confirmExchange(
+            @RequestParam(name = "exchange_id") Long exchangeId,
+            @RequestParam(name = "offer_id") Long offerId) {
+
+        Exchanges exchange = this.exchangeService.getExchange(exchangeId);
+
+
+        Offers offer = this.offerService.getOffer(offerId);
+
+        if(offer.isPicked()) {
+            if (exchange.getFirstConfirm() == 0L) {
+                exchange.setFirstConfirm(getUserData().getId());
+            } else {
+                exchange.setSecondConfirm(getUserData().getId());
+                exchange.setStatus(ExchangeStatus.CLOSED);
+            }
+
+            this.exchangeService.saveExchange(exchange);
+        }
+
+
+        return "redirect:/profile";
+    }
+
     @GetMapping(value = "/createExchange")
     public String createExchange(Model model) {
 
@@ -186,27 +236,13 @@ public class ExchangeController {
             books.remove(book);
         }
 
-//        for (Long id:this.exchangeWebRequest.getAuthors()) {
-//            Authors author = this.authorService.getAuthor(id);
-//            currentAuthors.add(author);
-//            authors.remove(author);
-//        }
-//
-//        for (Long id:this.exchangeWebRequest.getGenres()) {
-//            Genres genre = this.genreService.getGenre(id);
-//            currentGenres.add(genre);
-//            genres.remove(genre);
-//        }
+
 
         model.addAttribute("userBooks", userBooks);
         model.addAttribute("books", books);
-//        model.addAttribute("authors", authors);
-//        model.addAttribute("genres", genres);
 
         model.addAttribute("currentBooks", currentBooks);
         model.addAttribute("currentUserBooks", currentUserBooks);
-//        model.addAttribute("currentAuthors", currentAuthors);
-//        model.addAttribute("currentGenres", currentGenres);
 
 
         model.addAttribute("currentUser", getUserData());
@@ -260,13 +296,6 @@ public class ExchangeController {
             return "redirect:/createExchange";
         }
 
-//        if (type.equals("genre")){
-//            this.exchangeWebRequest.addGenre(id);
-//        }
-//
-//        if (type.equals("author")){
-//            this.exchangeWebRequest.addAuthor(id);
-//        }
 
         return "redirect:/createExchange";
     }
@@ -290,13 +319,6 @@ public class ExchangeController {
             this.exchangeWebRequest.getOfferBooks().remove(id);
         }
 
-//        if (type.equals("genre")){
-//            this.exchangeWebRequest.getGenres().remove(id);
-//        }
-//
-//        if (type.equals("author")){
-//            this.exchangeWebRequest.getAuthors().remove(id);
-//        }
 
         return "redirect:/createExchange";
     }

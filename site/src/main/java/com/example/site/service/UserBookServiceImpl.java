@@ -21,7 +21,7 @@ public class UserBookServiceImpl implements UserBookService {
 
     @Override
     public List<UserBooks> getAllBooksByUser(Users user) {
-        return userBookRepository.findUserBooksByUser(user);
+        return userBookRepository.findUserBooksByUserAndAndRemoved(user, false);
     }
 
     @Override

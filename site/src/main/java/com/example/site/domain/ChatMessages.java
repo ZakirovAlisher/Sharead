@@ -10,31 +10,37 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "user_books")
+@Table(name = "messages")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserBooks {
+public class ChatMessages {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "cover")
-    private String cover;
 
-    @Column(name = "removed")
-    private boolean removed = false;
+    @Column(name = "content")
+    private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Users user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Books book;
+    private Users userOne;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Users userTwo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Exchanges exchange;
+
 
 }

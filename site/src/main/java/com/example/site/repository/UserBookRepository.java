@@ -13,6 +13,6 @@ import java.util.List;
 @Transactional
 public interface UserBookRepository extends JpaRepository<UserBooks, Long> {
 
-    List<UserBooks> findUserBooksByUser(Users user);
+    List<UserBooks> findUserBooksByUserAndAndRemoved(Users user, boolean removed);
 
 }
