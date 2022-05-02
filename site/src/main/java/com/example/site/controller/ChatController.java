@@ -84,7 +84,7 @@ public class ChatController {
     }
     @MessageMapping("/message")
     @SendTo("/topic/messages")
-    public ResponseMessage getMessage(final Message message) throws InterruptedException {
+    public ResponseMessage getmessage(final Message message) throws InterruptedException {
 
         notificationService.sendGlobalNotification();
         return new ResponseMessage(

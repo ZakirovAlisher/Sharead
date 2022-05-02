@@ -24,10 +24,15 @@
 }
 
 .swap{
+    filter:  brightness(0) invert(1);
     width: 7em;
     height: 6em;
  }
-
+.chat_ava{
+    border-radius: 50%;
+    width: 7em;
+    height: 6em;
+}
 p,*{
     margin: 0;
     padding: 0;

@@ -4,7 +4,7 @@
 <div layout:fragment="site_content" >
 <div class="jumbotron " >
 
-    <div class="container-fluid bg-success  mb-2 text-center p-5"style="color: white; border-radius: 50px">
+    <div class="container-fluid   mb-2 text-center p-5"style="color: white; border-radius: 50px; background-color: gray">
         <h3><span  th:text="#{label.welcome}"></span>  <span th:text="${currentUser.getFullName()}"></span></h3>
 
         <img th:src="@{'/viewphoto/'+${currentUser.userAvatar}}" class="border border-warning" style="width: 60%;height: 60%; border-radius:999em">
@@ -62,7 +62,7 @@
         <a  class="row  m-0" th:href="@{'/chat?opponent='+${offer.getUser().getEmail()} + '&exchange_id=' + ${offer.getExchange().getId()} + '&offer_id=' + ${offer.getId()}} " style="width: 100% !important;">
             <div class="col-5" >
                 <div class="user__logo">
-                    <img th:src="@{'/viewphoto/'+${offer.getExchange().getUser().getUserAvatar()}}" alt="userLogo" class="swap">
+                    <img th:src="@{'/viewphoto/'+${offer.getExchange().getUser().getUserAvatar()}}" alt="userLogo" class="chat_ava">
                 </div>
                 <p th:text="${offer.getExchange().getUser().getFullName()}">
                     admin123
@@ -85,7 +85,7 @@
 
             <div class="col-5" >
                 <div class="user__logo">
-                    <img th:src="@{'/viewphoto/'+${offer.getUser().getUserAvatar()}}" alt="userLogo" class="swap">
+                    <img th:src="@{'/viewphoto/'+${offer.getUser().getUserAvatar()}}" alt="userLogo" class="chat_ava">
                 </div>
                 <p th:text="${offer.getUser().getFullName()}">
                     admin123
@@ -111,7 +111,7 @@
 
             <div class="col-5" >
                 <div class="user__logo">
-                    <img th:src="@{'/viewphoto/'+${offer.getUser().getUserAvatar()}}" alt="userLogo" class="swap">
+                    <img th:src="@{'/viewphoto/'+${offer.getUser().getUserAvatar()}}" alt="userLogo" class="chat_ava">
                 </div>
                 <p th:text="${offer.getUser().getFullName()}">
                     admin123
@@ -133,7 +133,7 @@
 
             <div class="col-5" >
                 <div class="user__logo">
-                    <img th:src="@{'/viewphoto/'+${offer.getExchange().getUser().getUserAvatar()}}" alt="userLogo" class="swap">
+                    <img th:src="@{'/viewphoto/'+${offer.getExchange().getUser().getUserAvatar()}}" alt="userLogo" class="chat_ava">
                 </div>
                 <p th:text="${offer.getExchange().getUser().getFullName()}">
                     admin123

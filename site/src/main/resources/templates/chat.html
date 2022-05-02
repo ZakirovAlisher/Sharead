@@ -19,7 +19,7 @@
 
         <div class="text-center">
         Chat with  <div class="user__logo">
-        <img th:src="@{'/viewphoto/'+${chatWith.getUserAvatar()}}" alt="userLogo" class="swap">
+        <img th:src="@{'/viewphoto/'+${chatWith.getUserAvatar()}}" alt="userLogo" class="chat_ava">
       </div>
         <p th:text="${chatWith.getFullName()}">
           admin123
@@ -50,7 +50,7 @@
 
             </div>
 
-            <div th:unless="${me.equals(msg.getUserOne().getEmail())}" style="background-color: white">
+            <div th:unless="${me.equals(msg.getUserOne().getEmail())}" style="background-color: darkgrey ; width: 35%" class="mr-auto  p-3 m-2 rounded">
 
               <b style="" th:if="${msg.getContent().contains('Your opponent canceled offer')}" class="text-danger" th:text="'Your opponent canceled offer'" > </b>
               <b style="" th:if="${msg.getContent().contains('Your opponent confirms exchange.')}" class="text-success" th:text="'Your opponent confirms exchange. Was the exchange successful? Confirm or cancel'" > </b>

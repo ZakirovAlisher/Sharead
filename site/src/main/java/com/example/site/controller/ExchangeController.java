@@ -12,6 +12,7 @@ import com.example.site.service.BookService;
 import com.example.site.service.ExchangeService;
 import com.example.site.service.GenreService;
 import com.example.site.service.OfferService;
+import com.example.site.service.SendEmailService;
 import com.example.site.service.UserBookService;
 import com.example.site.service.UserService;
 import com.example.site.util.ExchangeStatus;
@@ -41,6 +42,9 @@ import java.util.List;
 
 @Controller
 public class ExchangeController {
+
+    @Autowired
+    SendEmailService sendEmailService;
 
     @Autowired
     ExchangeWebRequest exchangeWebRequest;
@@ -148,10 +152,9 @@ public class ExchangeController {
 
         exchange.setStatus(ExchangeStatus.FREEZED);
 
-        //todo: отправка эмеила оферисту
-        //todo: в профиле чтоб можно было связаться в чате
-
-
+        sendEmailService.sendEmail (offer.getUser().getEmail(), "Your offer has been picked, please visit our website to connect with user to continue the exchange http://localhost:8000/chat?"
+                                            + "opponent="+getUserData().getEmail()+"&exchange_id="+exchangeId+"&offer_id="+offerId
+                , "Your offer has been picked!!!");
 
         this.offerService.saveOffer(offer);
         this.exchangeService.saveExchange(exchange);
@@ -174,9 +177,6 @@ public class ExchangeController {
         exchange.setStatus(ExchangeStatus.OPENED);
         exchange.setFirstConfirm(0L);
         exchange.setSecondConfirm(0L);
-        //todo: отправка эмеила оферисту
-
-
 
         this.offerService.saveOffer(offer);
         this.exchangeService.saveExchange(exchange);
@@ -199,10 +199,24 @@ public class ExchangeController {
         if(offer.isPicked()) {
             if (exchange.getFirstConfirm() == 0L) {
                 exchange.setFirstConfirm(getUserData().getId());
+                String email = "";
+                String opEmail = "";
+                if(offer.getUser().getEmail().equals(getUserData().getEmail())){
+                    email = exchange.getUser().getEmail();
+                    opEmail = offer.getUser().getEmail();
+                } else {
+                    email = offer.getUser().getEmail();
+                    opEmail = exchange.getUser().getEmail();
+                }
+                sendEmailService.sendEmail (email, "Your opponent confirmed exchange, please confirm it too or cancel if exchange didn't finished http://localhost:8000/chat?"
+            + "opponent="+opEmail+"&exchange_id="+exchangeId+"&offer_id="+offerId
+                        , "Your opponent confirmed exchange!!!");
+
             } else {
                 exchange.setSecondConfirm(getUserData().getId());
                 exchange.setStatus(ExchangeStatus.CLOSED);
             }
+
 
             this.exchangeService.saveExchange(exchange);
         }

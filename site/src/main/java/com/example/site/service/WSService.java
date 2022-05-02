@@ -25,7 +25,7 @@ public class WSService {
     }
 
     public void notifyUser(final String id, final String message) {
-        ResponseMessage response = new ResponseMessage(message);
+        ResponseMessage response = new ResponseMessage( "<div style=\"background-color: darkgrey; width: 35%\"   class=\"mr-auto p-3  m-2  rounded\"> <p >" + message + "</p> </div>");
 
         notificationService.sendPrivateNotification(id);
         messagingTemplate.convertAndSendToUser(id, "/topic/private-messages", response);

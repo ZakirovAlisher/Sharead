@@ -68,12 +68,6 @@ public class LibraryController {
 
     @GetMapping(value = "/library")
     public String index(Model model) {
-//        String str1 = "e CE enchi ПРОРОК МУХАММАД венец рода человеческого ФЕТХУППАХ ГЮПЕН VTOX sils ";
-//        String str2 = "Пророк Мухаммад: венец рода человеческого Фехтуллах Гюлен";
-//        String str3 = "Гарри Поттер и Дары Смерти Джоан Роулинг";
-//        String str4 = "Хоббит: Туда и обратно ДЖон ТОлкин";
-//        levenstain(str1, str2);
-
         List<UserBooks> userBooks = userBookService.getAllBooksByUser(getUserData());
         model.addAttribute("userBooks", userBooks);
         model.addAttribute("currentUser", getUserData());
@@ -188,7 +182,6 @@ public class LibraryController {
     }
 
     public  int levenstain( String str1,  String str2) {
-        // Массивы должны быть одинаковой длины, т.к. отражают две строки (или столбца) одной и той же таблицы (см. алгоритм расстояния Левенштейна)
         int[] Di_1 = new int[str2.length() + 1];
         int[] Di = new int[str2.length() + 1];
 
