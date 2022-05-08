@@ -306,15 +306,19 @@ public class ExchangeController {
     public String addbooktooffer(
             @RequestParam(name = "id") Long id,
             @RequestParam(name = "type") String type,
-            @RequestParam(name = "exchange_id") Long exchangeId
+            @RequestParam(name = "exchange_id") Long exchangeId,
+            RedirectAttributes redirAttrs
             ) {
 
         if (type.equals("offerBook")){
-            if(exchangeWebRequest.getOfferBooks().size() != 6)
+            if(exchangeWebRequest.getOfferBooks().size() != 6) {
                 this.exchangeWebRequest.addOfferBook(id);
+            } else {
+                redirAttrs.addFlashAttribute("errorA", "The number of books must not exceed 6");
+            }
         }
 
-        return "redirect:/exchangeDetails/" + exchangeId;
+        return "redirect:/exchangeDetails/" + exchangeId + "#pickUserBooks";
     }
 
     @GetMapping(value = "/removebookfromoffer")
@@ -324,32 +328,38 @@ public class ExchangeController {
 
             this.exchangeWebRequest.getOfferBooks().remove(id);
 
-        return "redirect:/exchangeDetails/" + exchangeId;
+        return "redirect:/exchangeDetails/" + exchangeId + "#pickUserBooks";
     }
 
     @PostMapping(value = "/addbooktoexchange")
     public String addBookToExchange(
             @RequestParam(name = "id") Long id,
-            @RequestParam(name = "type") String type) {
-
+            @RequestParam(name = "type") String type,
+            RedirectAttributes redirAttrs) {
+        String redir ="";
         if (type.equals("userBook")){
-            if(exchangeWebRequest.getUserBooks().size() != 6)
+            if(exchangeWebRequest.getUserBooks().size() != 6){
             this.exchangeWebRequest.addUserBook(id);
+                redir = "#pickUserBooks";
+            }
+            else {
+                redirAttrs.addFlashAttribute("errorA", "The number of books must not exceed 6");
+            }
+
         }
 
         if (type.equals("book")){
-            if(exchangeWebRequest.getBooks().size() != 6)
+            if(exchangeWebRequest.getBooks().size() != 6){
             this.exchangeWebRequest.addBook(id);
+                redir = "#pickBooks";
+            }
+            else {
+                redirAttrs.addFlashAttribute("errorA", "The number of books must not exceed 6");
+            }
+
         }
 
-        if (type.equals("offerBook")){
-            if(exchangeWebRequest.getOfferBooks().size() != 6)
-                this.exchangeWebRequest.addOfferBook(id);
-            return "redirect:/createExchange";
-        }
-
-
-        return "redirect:/createExchange";
+        return "redirect:/createExchange" + redir;
     }
 
 
@@ -367,9 +377,7 @@ public class ExchangeController {
             this.exchangeWebRequest.getBooks().remove(id);
         }
 
-        if (type.equals("offerBook")){
-            this.exchangeWebRequest.getOfferBooks().remove(id);
-        }
+
 
 
         return "redirect:/createExchange";
