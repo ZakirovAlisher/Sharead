@@ -11,28 +11,34 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
 
     @Autowired
-    private BookRepository bookService;
+    private BookRepository bookRepository;
 
     @Override
     public List<Books> getAllBooks() {
-        return bookService.findAll();
+        return bookRepository.findAll();
     }
 
     @Override
     public Books addBook(Books book) {
-        return bookService.save(book);
+        return bookRepository.save(book);
     }
 
     @Override
     public Books saveBook(Books book) {
-        return bookService.save(book);
+        return bookRepository.save(book);
+    }
+
+    @Override
+    public List<Books> getAllBooksSearch(String str) {
+        return bookRepository.getBooksSearch("%" + str + "%");
     }
 
     @Override
     public Books getBook(Long id) {
-        return bookService.getOne(id);
+        return bookRepository.getOne(id);
     }
 
     @Override
-    public void deleteBook(Books book) {bookService.delete(book);}
+    public void deleteBook(Books book) {
+        bookRepository.delete(book);}
 }

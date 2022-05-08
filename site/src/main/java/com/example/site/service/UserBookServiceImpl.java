@@ -35,6 +35,13 @@ public class UserBookServiceImpl implements UserBookService {
     }
 
     @Override
+    public List<UserBooks> getAllUserBooksSearch(
+            final String searchUserStr,
+            final Users userData) {
+        return userBookRepository.getAllUserBooksSearch("%"+searchUserStr+"%", userData);
+    }
+
+    @Override
     public UserBooks getBook(Long id) {
         return userBookRepository.getOne(id);
     }

@@ -13,4 +13,7 @@ public interface UserBookService {
     void deleteBook(UserBooks book);
     UserBooks saveBook(UserBooks book);
 
+    List<UserBooks> getAllUserBooksSearch(
+            String searchUserStr,
+            final Users userData);
 }

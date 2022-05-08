@@ -21,7 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Books {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -38,6 +37,4 @@ public class Books {
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Genres> genres;
-
-
 }

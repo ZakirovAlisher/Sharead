@@ -78,6 +78,12 @@
     <div class="text-center" style="margin: 0 auto">
         <h3> Your books:</h3>
     </div>
+    <form method="get" th:action="@{'/createExchange#pickUserBooks'}"  class="mt-3" id="pickUserBooks">
+        <div class="row pl-4">
+            <input type="text" class="form-control col-11 shadow " name="searchUserStr" >
+            <button class="btn btn-info col-1 shadow"style="position: relative; right: 20px" >Search</button>
+        </div>
+    </form>
     <div class=" row m-0">
         <div th:each="book : ${userBooks}" class="block_exchange_book book1 col-2">
             <div class="exchange">
@@ -109,6 +115,12 @@
     <div class="text-center" style="margin: 0 auto">
         <h3> Pick books that you want:</h3>
     </div>
+    <form method="get" th:action="@{'/createExchange#pickBooks'}"  class="mt-3" id="pickBooks">
+        <div class="row pl-4">
+            <input type="text" class="form-control col-11 shadow " name="searchStr" >
+            <button class="btn btn-info col-1 shadow"style="position: relative; right: 20px" >Search</button>
+        </div>
+    </form>
     <div class="container-fluid row m-0" style=" ">
         <div th:each="book : ${books}" class="block_exchange_book book1 col-2">
             <div class="exchange">

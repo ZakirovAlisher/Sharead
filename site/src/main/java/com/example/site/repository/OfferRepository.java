@@ -17,8 +17,8 @@ public interface OfferRepository extends JpaRepository<Offers, Long> {
     List<Offers> findOffersByExchange(Exchanges exchange);
 
     @Query("select o from Offers o where o.isPicked = true and o .user = ?1  and o.exchange.status = 'freezed'")
-    List<Offers> getExchangesByOffersAccepted(Users user); // где меня апрувнули
+    List<Offers> getExchangesByOffersAccepted(Users user);
 
     @Query("select o from Offers o where o.isPicked = true and o .exchange.user = ?1 and o.exchange.status = 'freezed'")
-    List<Offers> getExchangesByOffersAcceptedIApproved(Users user); //оффер который я пикнул
+    List<Offers> getExchangesByOffersAcceptedIApproved(Users user);
 }

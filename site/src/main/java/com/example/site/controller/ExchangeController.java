@@ -226,11 +226,27 @@ public class ExchangeController {
     }
 
     @GetMapping(value = "/createExchange")
-    public String createExchange(Model model) {
+    public String createExchange(Model model, @RequestParam(name="searchStr",required = false) String searchStr,
+                                @RequestParam(name="searchUserStr",required = false) String searchUserStr) {
 
-        List<UserBooks> userBooks = this.userBookService.getAllBooksByUser(getUserData());
+        List<UserBooks> userBooks = new ArrayList<>();
 
-        List<Books> books = this.bookService.getAllBooks();
+        if (searchUserStr == null || searchUserStr.equals("")){
+            userBooks = this.userBookService.getAllBooksByUser(getUserData());
+        }
+        if (searchUserStr != null){
+            userBooks = this.userBookService.getAllUserBooksSearch(searchUserStr, getUserData());
+        }
+
+        List<Books> books = new ArrayList<>();
+
+        if (searchStr == null || searchStr.equals("")){
+            books = this.bookService.getAllBooks();
+        }
+        if (searchStr != null){
+            books = this.bookService.getAllBooksSearch(searchStr);
+        }
+
 
 
 

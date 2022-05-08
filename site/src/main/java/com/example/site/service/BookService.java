@@ -11,4 +11,6 @@ public interface BookService {
     Books getBook(Long id);
     void deleteBook(Books book);
     Books saveBook(Books book);
+
+    List<Books> getAllBooksSearch(String str);
 }
