@@ -55,7 +55,8 @@
             <button type="submit" class="btn btn-primary" th:text="#{label.save}"></button>
         </div>
     </form>
-
+<br>
+    <div th:if="${not #lists.isEmpty(iApproved)}">
     I Approved
     <div th:each="offer : ${iApproved}" class="exchange">
 
@@ -102,7 +103,9 @@
             </div>
         </a>
     </div>
-
+    </div>
+    <br>
+    <div th:if="${not #lists.isEmpty(myApproved)}">
     Меня апрувнули
     <div th:each="offer : ${myApproved}" class="exchange">
 
@@ -151,7 +154,7 @@
             </div>
         </a>
     </div>
-
+    </div>
 </div>
 
 
