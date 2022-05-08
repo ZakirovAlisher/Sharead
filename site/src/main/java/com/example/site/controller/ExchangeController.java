@@ -80,8 +80,17 @@ public class ExchangeController {
     }
 
     @GetMapping(value = "/exchangeDetails/{id}")
-    public String exchangeDetails(Model m ,@PathVariable(name = "id") Long id){
-        List<UserBooks> userBooks = this.userBookService.getAllBooksByUser(getUserData());
+    public String exchangeDetails(Model m ,@PathVariable(name = "id") Long id,
+                                  @RequestParam(name="searchUserStr",required = false) String searchUserStr){
+        List<UserBooks> userBooks = new ArrayList<>();
+
+        if (searchUserStr == null || searchUserStr.equals("")){
+            userBooks = this.userBookService.getAllBooksByUser(getUserData());
+        }
+        if (searchUserStr != null){
+            userBooks = this.userBookService.getAllUserBooksSearch(searchUserStr, getUserData());
+        }
+
         List<UserBooks> currentOfferBooks = new ArrayList<>();
 
 
