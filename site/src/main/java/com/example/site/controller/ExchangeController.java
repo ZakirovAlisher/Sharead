@@ -131,6 +131,11 @@ public class ExchangeController {
             @RequestParam(name = "comment") String comment,
             RedirectAttributes redirAttrs) {
 
+        if (this.exchangeWebRequest.getOfferBooks().isEmpty() && comment.equals("")){
+            redirAttrs.addFlashAttribute("errorA", "Offer can't be empty");
+            return "redirect:/exchangeDetails/" + exchangeId  + "#pickUserBooks";
+        }
+
         List<UserBooks> offerBooks = new ArrayList<>();
 
         for (Long id:this.exchangeWebRequest.getOfferBooks()) {
@@ -387,6 +392,14 @@ public class ExchangeController {
     public String submitExchange(
             @RequestParam(name = "comment") String comment,  RedirectAttributes redirAttrs) {
 
+        if (this.exchangeWebRequest.getUserBooks().isEmpty()){
+            redirAttrs.addFlashAttribute("errorA", "Pick your books please");
+            return "redirect:/createExchange";
+        }
+        if (this.exchangeWebRequest.getBooks().isEmpty()){
+            redirAttrs.addFlashAttribute("errorA", "Pick books that you want please");
+            return "redirect:/createExchange";
+        }
         Exchanges exchange = new Exchanges();
 
         List<Books> currentBooks = new ArrayList<>();
