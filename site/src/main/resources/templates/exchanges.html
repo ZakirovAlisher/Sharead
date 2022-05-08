@@ -8,6 +8,7 @@
 
     <div class="   m-0 " style="margin: 0 auto" >
 
+        <div class="alert alert-success" role="alert" th:text="${successA}" th:if="${successA}"></div>
 
         <div th:each="exchange : ${exchangesOpen}" class="exchange" >
             <a  class="row  m-0" th:href="@{'/exchangeDetails/'+${exchange.getId()}}" style="width: 100% !important;">

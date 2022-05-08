@@ -5,7 +5,8 @@
     <div class="text-center">
     <button class="btn btn-dark m-3"  data-toggle="modal" data-target="#addBook" >+ ADD BOOK +</button>
     </div>
-
+    <div class="alert alert-success" role="alert" th:text="${successA}" th:if="${successA}"></div>
+    <div class="alert alert-danger" role="alert" th:text="${errorA}" th:if="${errorA}"></div>
     <div class="row m-0">
 
 

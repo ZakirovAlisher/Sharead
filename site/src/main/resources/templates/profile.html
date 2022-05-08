@@ -3,14 +3,14 @@
 
 <div layout:fragment="site_content" >
 <div class="jumbotron " >
-
+    <div class="alert alert-success" role="alert" th:text="${successA}" th:if="${successA}"></div>
+    <div class="alert alert-danger" role="alert" th:text="${errorA}" th:if="${errorA}"></div>
     <div class="container-fluid   mb-2 text-center p-5"style="color: white; border-radius: 50px; background-color: gray">
         <h3><span  th:text="#{label.welcome}"></span>  <span th:text="${currentUser.getFullName()}"></span></h3>
 
         <img th:src="@{'/viewphoto/'+${currentUser.userAvatar}}" class="border border-warning" style="width: 60%;height: 60%; border-radius:999em">
     </div>
-    <div class="alert alert-primary" role="alert" th:text="${successA}" th:if="${successA}"></div>
-    <div class="alert alert-danger" role="alert" th:text="${errorA}" th:if="${errorA}"></div>
+
 
 
 

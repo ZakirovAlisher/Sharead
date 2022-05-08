@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -127,7 +128,8 @@ public class ExchangeController {
     @PostMapping(value = "/postOffer")
     public String addOfferToExchange(
             @RequestParam(name = "exchange_id") Long exchangeId,
-            @RequestParam(name = "comment") String comment) {
+            @RequestParam(name = "comment") String comment,
+            RedirectAttributes redirAttrs) {
 
         List<UserBooks> offerBooks = new ArrayList<>();
 
@@ -146,13 +148,16 @@ public class ExchangeController {
         this.offerService.saveOffer(offer);
         this.exchangeWebRequest.setOfferBooks(new ArrayList<>());
 
+        redirAttrs.addFlashAttribute("successA", "Offer successfully posted");
+
         return "redirect:/exchangeDetails/" + exchangeId;
     }
 
     @PostMapping(value = "/pickOffer")
     public String pickOffer(
             @RequestParam(name = "exchange_id") Long exchangeId,
-            @RequestParam(name = "offer_id") Long offerId) {
+            @RequestParam(name = "offer_id") Long offerId,
+            RedirectAttributes redirAttrs) {
 
         Offers offer = this.offerService.getOffer(offerId);
         offer.setPicked(true);
@@ -170,13 +175,16 @@ public class ExchangeController {
 
         this.exchangeWebRequest.setOfferBooks(new ArrayList<>());
 
+        redirAttrs.addFlashAttribute("successA", "Offer successfully picked");
+
         return "redirect:/exchangeDetails/" + exchangeId;
     }
 
     @PostMapping(value = "/cancelOffer")
     public String cancelOffer(
             @RequestParam(name = "exchange_id") Long exchangeId,
-            @RequestParam(name = "offer_id") Long offerId) {
+            @RequestParam(name = "offer_id") Long offerId,
+            RedirectAttributes redirAttrs) {
 
         Offers offer = this.offerService.getOffer(offerId);
         offer.setPicked(false);
@@ -192,13 +200,16 @@ public class ExchangeController {
 
         this.exchangeWebRequest.setOfferBooks(new ArrayList<>());
 
+        redirAttrs.addFlashAttribute("successA", "Offer successfully canceled");
+
         return "redirect:/profile";
     }
 
     @PostMapping(value = "/confirmExchange")
     public String confirmExchange(
             @RequestParam(name = "exchange_id") Long exchangeId,
-            @RequestParam(name = "offer_id") Long offerId) {
+            @RequestParam(name = "offer_id") Long offerId,
+            RedirectAttributes redirAttrs) {
 
         Exchanges exchange = this.exchangeService.getExchange(exchangeId);
 
@@ -230,13 +241,15 @@ public class ExchangeController {
             this.exchangeService.saveExchange(exchange);
         }
 
+        redirAttrs.addFlashAttribute("successA", "Exchange successfully confirmed");
 
         return "redirect:/profile";
     }
 
     @GetMapping(value = "/createExchange")
     public String createExchange(Model model, @RequestParam(name="searchStr",required = false) String searchStr,
-                                @RequestParam(name="searchUserStr",required = false) String searchUserStr) {
+                                @RequestParam(name="searchUserStr",required = false) String searchUserStr
+                                 ) {
 
         List<UserBooks> userBooks = new ArrayList<>();
 
@@ -364,7 +377,7 @@ public class ExchangeController {
 
     @PostMapping(value = "/submitExchange")
     public String submitExchange(
-            @RequestParam(name = "comment") String comment) {
+            @RequestParam(name = "comment") String comment,  RedirectAttributes redirAttrs) {
 
         Exchanges exchange = new Exchanges();
 
@@ -395,6 +408,7 @@ public class ExchangeController {
 
 
 
+        redirAttrs.addFlashAttribute("successA", "Exchange successfully created");
 
         return "redirect:/";
     }

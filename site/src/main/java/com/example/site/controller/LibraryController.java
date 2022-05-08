@@ -105,6 +105,7 @@ public class LibraryController {
                 userBook.setUser(currentUser);
                 userBook.setCover(picName);
                 this.userBookService.addBook(userBook);
+                redirAttrs.addFlashAttribute("successA", "Book successfully added");
 
                 return "redirect:/library?success";
             } catch (Exception e) {
@@ -112,8 +113,8 @@ public class LibraryController {
             }
         }
 
-        redirAttrs.addFlashAttribute("errorA", "Error download avatar.");
-        return "redirect:/profile";
+        redirAttrs.addFlashAttribute("errorA", "Error adding book");
+        return "redirect:/library";
     }
 
     private Books resolvePotentialBook(
@@ -212,10 +213,11 @@ public class LibraryController {
 
     @PostMapping(value = "/removeBookFromLibrary")
     public String removeBookFromLibrary(
-            @RequestParam(name = "book_id") Long id) {
+            @RequestParam(name = "book_id") Long id,  RedirectAttributes redirAttrs) {
         UserBooks book = userBookService.getBook(id);
         book.setRemoved(true);
         userBookService.saveBook(book);
+        redirAttrs.addFlashAttribute("successA", "Book successfully removed");
 
         return "redirect:/library?success";
 
