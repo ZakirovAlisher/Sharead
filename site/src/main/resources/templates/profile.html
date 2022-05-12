@@ -51,7 +51,7 @@
         </form>
         <br>
         <div th:if="${not #lists.isEmpty(iApproved)}" style="color: #393939;">
-            I Approved
+            <h4>My exchanges in progress</h4>
             <div th:each="offer : ${iApproved}" class="exchange">
 
                 <a  class="row  m-0" th:href="@{'/chat?opponent='+${offer.getUser().getEmail()} + '&exchange_id=' + ${offer.getExchange().getId()} + '&offer_id=' + ${offer.getId()}} " style="width: 100% !important;">
@@ -100,7 +100,7 @@
         </div>
         <br>
         <div th:if="${not #lists.isEmpty(myApproved)}" style="color: #393939;">
-            I got approved
+            <h4>Exchanges with my confirmed offer</h4>
             <div th:each="offer : ${myApproved}" class="exchange">
 
                 <a  class="row  m-0" th:href="@{'/chat?opponent='+${offer.getExchange().getUser().getEmail()} + '&exchange_id=' + ${offer.getExchange().getId()} + '&offer_id=' + ${offer.getId()} }"  style="width: 100% !important;">

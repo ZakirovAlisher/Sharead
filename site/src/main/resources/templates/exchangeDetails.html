@@ -79,10 +79,14 @@
                     </div>
                 </div>
 
-                <div th:each="offer : ${offers}" class="exchange" th:styleappend="${offer.isPicked()} ? 'background-color: darkred' : ''">
+                <div th:each="offer : ${offers}" class="exchange">
 
-
-                    <div   class="row">
+                    <div class="container-fluid" style="background-color: yellowgreen" th:if="${offer.isPicked()}">
+                        <div class="col-12 user">
+                            <span style="color: darkgreen; font-size: 20px; font-weight: 500">THIS OFFER WAS CHOSEN BY AUTHOR OF EXCHANGE</span>
+                        </div>
+                    </div>
+                    <div class="container-fluid" th:styleappend="${offer.isPicked()} ? 'background-color: darkgreen' : ''">
 
                         <div class="col-12 user">
                             <div class="block_date" th:text="${offer.getDate()}">
@@ -121,15 +125,16 @@
                             <input type="hidden" name="exchange_id" th:value="${exchange.getId()}">
                         </form>
                     </div>
-
+                    <div class="container-fluid" style="background-color: yellowgreen" th:if="${offer.isPicked()}">
+                        <div class="col-12 user">
+                            <span style="color: darkgreen; font-size: 20px; font-weight: 500">THIS OFFER WAS CHOSEN BY AUTHOR OF EXCHANGE</span>
+                        </div>
+                    </div>
                 </div>
-
-
-
             </div>
 
 
-            <div th:if="${canOffer}" class="mt-4">
+            <div th:if="${canOffer}" class="mt-4" style="background-color: darkgrey; padding: 20px; border-radius: 15px">
 
                 <form method="post" th:action="@{'/postOffer'}">
                     <textarea rows="3" cols="50" type="text" name="comment"></textarea><br>
@@ -173,7 +178,7 @@
                 </div>
                 <br>
             <div class="text-center" style="margin: 0 auto">
-                <h3> Your books:</h3>
+                <h3 style="color: black"> Your books:</h3>
             </div>
                 <div class="alert alert-danger mt-2" role="alert" th:text="${errorA}" th:if="${errorA}"></div>
                 <form method="get" th:action="@{'#pickUserBooks'}"  class="mt-3" id="pickUserBooks">
@@ -182,7 +187,7 @@
                         <button class="btn btn-info col-1 shadow"style="position: relative; right: 20px" >Search</button>
                     </div>
                 </form>
-            <div class="  row m-0">
+            <div class="  row m-2">
                 <div th:each="book : ${userBooks}" class="block_exchange_book book1 col-2">
                     <div class="exchange">
                         <img th:src="@{'/viewuserbook/'+${book.getCover()}}" class="" alt="...">
