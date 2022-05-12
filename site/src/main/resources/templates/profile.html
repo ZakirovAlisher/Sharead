@@ -2,161 +2,153 @@
 <html   xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorate = "layout/loginLayout.html" >
 
 <div layout:fragment="site_content" >
-<div class="jumbotron " >
-    <div class="alert alert-success" role="alert" th:text="${successA}" th:if="${successA}"></div>
-    <div class="alert alert-danger" role="alert" th:text="${errorA}" th:if="${errorA}"></div>
-    <div class="container-fluid   mb-2 text-center p-5"style="color: white; border-radius: 50px; background-color: gray">
-        <h3><span  th:text="#{label.welcome}"></span>  <span th:text="${currentUser.getFullName()}"></span></h3>
+    <div class="jumbotron">
+        <div class="alert alert-success" role="alert" th:text="${successA}" th:if="${successA}"></div>
+        <div class="alert alert-danger" role="alert" th:text="${errorA}" th:if="${errorA}"></div>
+        <div class="container-fluid   mb-2 text-center p-5" style="color: #393939;border-radius: 50px;background-color: lightgray">
+            <h3><span  th:text="#{label.welcome}"></span>  <span th:text="${currentUser.getFullName()}"></span></h3>
 
-        <img th:src="@{'/viewphoto/'+${currentUser.userAvatar}}" class="border border-warning" style="width: 60%;height: 60%; border-radius:999em">
-    </div>
+            <img th:src="@{'/viewphoto/'+${currentUser.userAvatar}}" class="border border-warning" style="width: 60%;height: 60%; border-radius:999em">
+        </div><br>
 
+        <form th:action="@{/uploadavatar}" method="post" class="mt-2 mb-2"  enctype="multipart/form-data">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFile" name="user_ava">
+                <label class="custom-file-label" for="customFile" th:text="#{label.choose}" ></label>
+            </div>
+            <button class="btn btn-success mt-2" th:text="#{label.upload}"> </button>
+        </form>
+        <div class="alert alert-primary" role="alert" th:text="${success1}" th:if="${success1}"></div>
 
-
-
-
-
-<form th:action="@{/uploadavatar}" method="post" class="mt-2 mb-2"  enctype="multipart/form-data">
-    <div class="custom-file">
-        <input type="file" class="custom-file-input" id="customFile" name="user_ava">
-        <label class="custom-file-label" for="customFile" th:text="#{label.choose}" ></label>
-    </div>
-<button class="btn btn-success mt-2" th:text="#{label.upload}"> </button>
-</form>
-    <div class="alert alert-primary" role="alert" th:text="${success1}" th:if="${success1}"></div>
-
-    <form th:action="@{/edprofile}" method="post">
-        <div class="form-group">
-            <input type="hidden" th:value="${currentUser.getId()}" name="id" id="user_id">
-            <span th:text="#{label.email}"></span> <span type="text" class="form-control" th:text="${currentUser.getEmail()}" > </span>
-            <span th:text="#{label.fullname}"></span> <input type="text" id="fname_id" th:value="${currentUser.getFullName()}" class="form-control" name="name">
+        <form th:action="@{/edprofile}" method="post" style="color: #393939; padding-top: 20px">
+            <div class="form-group">
+                <input type="hidden" th:value="${currentUser.getId()}" name="id" id="user_id">
+                <span style="font-size: 16px" th:text="#{label.email}"></span> <span type="text" class="form-control" th:text="${currentUser.getEmail()}" > </span><br>
+                <span style="font-size: 16px" th:text="#{label.fullname}"></span> <input type="text align-center" id="fname_id" th:value="${currentUser.getFullName()}" style="text-align: center" class="form-control" name="name">
 
 
-        </div>
-        <div class="modal-footer">
+            </div>
+            <div class="modal-footer">
 
-            <button type="submit" class="btn btn-primary" th:text="#{label.save}"></button>
-        </div>
-    </form>
-    <div class="alert alert-primary" role="alert" th:text="${successP}" th:if="${successP}"></div>
-    <div class="alert alert-danger" role="alert" th:text="${errorP}" th:if="${errorP}"></div>
-    <div class="alert alert-danger" role="alert" th:text="${errorP2}" th:if="${errorP2}"></div>
-    <form th:action="@{/edpass}" method="post">
-        <div class="form-group">
-            <input type="hidden" th:value="${currentUser.getId()}" name="id" >
-            <span th:text="#{label.old}"></span>  <input type="text" class="form-control"   name="old">
-            <span th:text="#{label.new}"></span>  <input type="text"   class="form-control" name="new">
+                <button type="submit" class="btn btn-primary" th:text="#{label.save}"></button>
+            </div>
+        </form>
+        <div class="alert alert-primary" role="alert" th:text="${successP}" th:if="${successP}"></div>
+        <div class="alert alert-danger" role="alert" th:text="${errorP}" th:if="${errorP}"></div>
+        <div class="alert alert-danger" role="alert" th:text="${errorP2}" th:if="${errorP2}"></div>
+        <form th:action="@{/edpass}" method="post" style="color: #393939;">
+            <div class="form-group">
+                <input type="hidden" th:value="${currentUser.getId()}" name="id" >
+                <span style="font-size: 16px" th:text="#{label.old}"></span>  <input type="text" class="form-control"   name="old" style="text-align: center"><br>
+                <span style="font-size: 16px" th:text="#{label.new}"></span>  <input type="text" class="form-control" name="new" style="text-align: center"><br>
+                <span style="font-size: 16px" th:text="#{label.cnew}"></span>  <input type="text" class="form-control" name="new2" style="text-align: center">
 
-            <span th:text="#{label.cnew}"></span>  <input type="text"    class="form-control" name="new2">
+            </div>
+            <div class="modal-footer">
 
-        </div>
-        <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" th:text="#{label.save}"></button>
+            </div>
+        </form>
+        <br>
+        <div th:if="${not #lists.isEmpty(iApproved)}" style="color: #393939;">
+            I Approved
+            <div th:each="offer : ${iApproved}" class="exchange">
 
-            <button type="submit" class="btn btn-primary" th:text="#{label.save}"></button>
-        </div>
-    </form>
-<br>
-    <div th:if="${not #lists.isEmpty(iApproved)}">
-    I Approved
-    <div th:each="offer : ${iApproved}" class="exchange">
+                <a  class="row  m-0" th:href="@{'/chat?opponent='+${offer.getUser().getEmail()} + '&exchange_id=' + ${offer.getExchange().getId()} + '&offer_id=' + ${offer.getId()}} " style="width: 100% !important;">
+                    <div class="col-5" >
+                        <div class="user__logo">
+                            <img th:src="@{'/viewphoto/'+${offer.getExchange().getUser().getUserAvatar()}}" alt="userLogo" class="chat_ava">
+                        </div>
+                        <p th:text="${offer.getExchange().getUser().getFullName()}">
+                            admin123
+                        </p>
+                        <div class="row  m-0" style="">
+                            <div th:each="book : ${offer.getExchange().getUserBooks()}" class="block_exchange_book book1 col-4">
+                                <img th:src="@{'/viewuserbook/'+${book.getCover()}}" alt="bookImg">
+                                <p th:text="${book.getBook().getTitle()}">Три товарища</p>
+                                <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
+                            </div>
 
-        <a  class="row  m-0" th:href="@{'/chat?opponent='+${offer.getUser().getEmail()} + '&exchange_id=' + ${offer.getExchange().getId()} + '&offer_id=' + ${offer.getId()}} " style="width: 100% !important;">
-            <div class="col-5" >
-                <div class="user__logo">
-                    <img th:src="@{'/viewphoto/'+${offer.getExchange().getUser().getUserAvatar()}}" alt="userLogo" class="chat_ava">
-                </div>
-                <p th:text="${offer.getExchange().getUser().getFullName()}">
-                    admin123
-                </p>
-                <div class="row  m-0" style="">
-                    <div th:each="book : ${offer.getExchange().getUserBooks()}" class="block_exchange_book book1 col-4">
-                        <img th:src="@{'/viewuserbook/'+${book.getCover()}}" alt="bookImg">
-                        <p th:text="${book.getBook().getTitle()}">Три товарища</p>
-                        <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
+                        </div>
+
+
                     </div>
 
-                </div>
-
-
-            </div>
-
-            <div class="col-2" style="margin-top: 3em !important;">
-                <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-0.jpg" class="swap"/>
-            </div>
-
-            <div class="col-5" >
-                <div class="user__logo">
-                    <img th:src="@{'/viewphoto/'+${offer.getUser().getUserAvatar()}}" alt="userLogo" class="chat_ava">
-                </div>
-                <p th:text="${offer.getUser().getFullName()}">
-                    admin123
-                </p>
-                <div class="row  m-0" style=" ">
-                    <div th:each="book : ${offer.getUserBooks()}" class="block_exchange_book book1 col-4">
-                        <img th:src="@{'/viewuserbook/'+${book.getCover()}}" alt="bookImg">
-                        <p th:text="${book.getBook().getTitle()}">Три товарища</p>
-                        <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
-                    </div>
-                </div>
-
-
-            </div>
-        </a>
-    </div>
-    </div>
-    <br>
-    <div th:if="${not #lists.isEmpty(myApproved)}">
-    Меня апрувнули
-    <div th:each="offer : ${myApproved}" class="exchange">
-
-        <a  class="row  m-0" th:href="@{'/chat?opponent='+${offer.getExchange().getUser().getEmail()} + '&exchange_id=' + ${offer.getExchange().getId()} + '&offer_id=' + ${offer.getId()} }"  style="width: 100% !important;">
-
-
-            <div class="col-5" >
-                <div class="user__logo">
-                    <img th:src="@{'/viewphoto/'+${offer.getUser().getUserAvatar()}}" alt="userLogo" class="chat_ava">
-                </div>
-                <p th:text="${offer.getUser().getFullName()}">
-                    admin123
-                </p>
-                <div class="row  m-0" style=" ">
-                    <div th:each="book : ${offer.getUserBooks()}" class="block_exchange_book book1 col-4">
-                        <img th:src="@{'/viewuserbook/'+${book.getCover()}}" alt="bookImg" >
-                        <p th:text="${book.getBook().getTitle()}">Три товарища</p>
-                        <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-2" style="margin-top: 3em !important;">
-                <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-0.jpg" class="swap"/>
-            </div>
-
-
-
-            <div class="col-5" >
-                <div class="user__logo">
-                    <img th:src="@{'/viewphoto/'+${offer.getExchange().getUser().getUserAvatar()}}" alt="userLogo" class="chat_ava">
-                </div>
-                <p th:text="${offer.getExchange().getUser().getFullName()}">
-                    admin123
-                </p>
-                <div class="row  m-0" style="">
-                    <div th:each="book : ${offer.getExchange().getUserBooks()}" class="block_exchange_book book1 col-4">
-                        <img th:src="@{'/viewuserbook/'+${book.getCover()}}" alt="bookImg"  >
-                        <p th:text="${book.getBook().getTitle()}">Три товарища</p>
-                        <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
+                    <div class="col-2" style="margin-top: 3em !important;">
+                        <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-21.jpg" class="swap"/>
                     </div>
 
-                </div>
+                    <div class="col-5" >
+                        <div class="user__logo">
+                            <img th:src="@{'/viewphoto/'+${offer.getUser().getUserAvatar()}}" alt="userLogo" class="chat_ava">
+                        </div>
+                        <p th:text="${offer.getUser().getFullName()}">
+                            admin123
+                        </p>
+                        <div class="row  m-0" style=" ">
+                            <div th:each="book : ${offer.getUserBooks()}" class="block_exchange_book book1 col-4">
+                                <img th:src="@{'/viewuserbook/'+${book.getCover()}}" alt="bookImg">
+                                <p th:text="${book.getBook().getTitle()}">Три товарища</p>
+                                <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
+                            </div>
+                        </div>
 
 
+                    </div>
+                </a>
             </div>
-        </a>
-    </div>
-    </div>
-</div>
+        </div>
+        <br>
+        <div th:if="${not #lists.isEmpty(myApproved)}" style="color: #393939;">
+            I got approved
+            <div th:each="offer : ${myApproved}" class="exchange">
+
+                <a  class="row  m-0" th:href="@{'/chat?opponent='+${offer.getExchange().getUser().getEmail()} + '&exchange_id=' + ${offer.getExchange().getId()} + '&offer_id=' + ${offer.getId()} }"  style="width: 100% !important;">
 
 
+                    <div class="col-5" >
+                        <div class="user__logo">
+                            <img th:src="@{'/viewphoto/'+${offer.getUser().getUserAvatar()}}" alt="userLogo" class="chat_ava">
+                        </div>
+                        <p th:text="${offer.getUser().getFullName()}">
+                            admin123
+                        </p>
+                        <div class="row  m-0" style=" ">
+                            <div th:each="book : ${offer.getUserBooks()}" class="block_exchange_book book1 col-4">
+                                <img th:src="@{'/viewuserbook/'+${book.getCover()}}" alt="bookImg" >
+                                <p th:text="${book.getBook().getTitle()}">Три товарища</p>
+                                <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-2" style="margin-top: 3em !important;">
+                        <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-21.jpg" class="swap"/>
+                    </div>
+
+
+
+                    <div class="col-5" >
+                        <div class="user__logo">
+                            <img th:src="@{'/viewphoto/'+${offer.getExchange().getUser().getUserAvatar()}}" alt="userLogo" class="chat_ava">
+                        </div>
+                        <p th:text="${offer.getExchange().getUser().getFullName()}">
+                            admin123
+                        </p>
+                        <div class="row  m-0" style="">
+                            <div th:each="book : ${offer.getExchange().getUserBooks()}" class="block_exchange_book book1 col-4">
+                                <img th:src="@{'/viewuserbook/'+${book.getCover()}}" alt="bookImg"  >
+                                <p th:text="${book.getBook().getTitle()}">Три товарища</p>
+                                <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 </html>

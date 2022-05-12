@@ -23,7 +23,7 @@
     </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light  " style="background-color: var(--secondary_col); color: white; padding-top: 30px !important;">
+    <nav class="navbar navbar-expand-lg navbar-light  " style="background-color: var(--secondary_col); color: white; padding-top: 10px !important;">
         <a class="navbar-brand ml-5" href="/" style="color: white"><img src="https://avatars.mds.yandex.net/get-adv/135342/2a0000016c909ced8d6107c4dab9897eea51/orig" style="width: 40px;height: 40px"><b> ShaRead</b></a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,10 +44,10 @@
                 </li>
 
             </ul>
-            <form method="get" class="form-inline my-2 my-lg-0">
-                <select name="lng" class="form-control mr-2" onchange="this.form.submit()"><option value="en" th:selected="${#request.getParameter('lng') == 'en'}">ENG</option><option value="ru" th:selected="${#request.getParameter('lng') == 'ru'}">RUS</option><option value="kz" th:selected="${#request.getParameter('lng') == 'kz'}">KAZ</option></select>
+<!--            <form method="get" class="form-inline my-2 my-lg-0">-->
+<!--                <select name="lng" class="form-control mr-2" onchange="this.form.submit()"><option value="en" th:selected="${#request.getParameter('lng') == 'en'}">ENG</option><option value="ru" th:selected="${#request.getParameter('lng') == 'ru'}">RUS</option><option value="kz" th:selected="${#request.getParameter('lng') == 'kz'}">KAZ</option></select>-->
 
-            </form>
+<!--            </form>-->
             <a href="/login" class="btn btn-outline-warning my-2 my-sm-0" style="color: white" sec:authorize="isAnonymous()" th:text="#{label.login}"></a>
             <a href="/register" class="btn btn-outline-warning my-2 my-sm-0" style="color: white" sec:authorize="isAnonymous()" th:text="#{label.reg}"></a>
 
@@ -61,7 +61,6 @@
     <div class="m-0 text-center container-fluid" style="margin: 0 auto">
 
     <div layout:fragment="site_content" class="  container-fluid" ></div>
-
 
     </div>
 

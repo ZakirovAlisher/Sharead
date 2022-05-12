@@ -101,6 +101,11 @@
 
 
         </script>
+        <meta charset="UTF-8">
+        <!-- CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link th:href="@{/css/main.css}" rel="stylesheet" />
+
         <!-- jQuery and JS bundle w/ Popper.js -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
@@ -108,8 +113,8 @@
     </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light  " style="background-color: #079915; color: white">
-        <a class="navbar-brand ml-5" href="/admin" style="color: white"><img src="https://avatars.mds.yandex.net/get-adv/135342/2a0000016c909ced8d6107c4dab9897eea51/orig" style="width: 40px;height: 40px"><b> ShaRead Admin Panel</b></a>
+    <nav class="navbar navbar-expand-lg navbar-light  " style="background-color: #202124FF; color: white; padding-top: 10px !important;">
+        <a class="navbar-brand ml-5" href="/admin" style="color: white"><img src="https://avatars.mds.yandex.net/get-adv/135342/2a0000016c909ced8d6107c4dab9897eea51/orig" style="width: 40px;height: 40px"><b> ShaRead Admin panel</b></a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -117,14 +122,11 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-
-
-
             </ul>
-            <form method="get" class="form-inline my-2 my-lg-0">
-                <select name="lng" class="form-control mr-2" onchange="this.form.submit()"><option value="en" th:selected="${#request.getParameter('lng') == 'en'}">ENG</option><option value="ru" th:selected="${#request.getParameter('lng') == 'ru'}">RUS</option><option value="kz" th:selected="${#request.getParameter('lng') == 'kz'}">KAZ</option></select>
+<!--            <form method="get" class="form-inline my-2 my-lg-0">-->
+<!--                <select name="lng" class="form-control mr-2" onchange="this.form.submit()"><option value="en" th:selected="${#request.getParameter('lng') == 'en'}">ENG</option><option value="ru" th:selected="${#request.getParameter('lng') == 'ru'}">RUS</option><option value="kz" th:selected="${#request.getParameter('lng') == 'kz'}">KAZ</option></select>-->
 
-            </form>
+<!--            </form>-->
 
             <a href="JavaScript:void(0)" onclick="document.getElementById('logoutForm').submit()" class="btn btn-outline-warning my-2 my-sm-0" style="color: white" sec:authorize="isAuthenticated()" th:text="#{label.logout}"></a>
 
@@ -133,10 +135,9 @@
         </div>
     </nav>
     <form th:action="@{'/logout'}" method="post" id="logoutForm" sec:authorize="isAuthenticated()"></form>
-    <div class="row ">
+    <div class="m-0 text-center container-fluid" style="margin: 0 auto">
 
-    <div layout:fragment="site_content" class="  container" style="width: 1000px"></div>
-
+        <div layout:fragment="site_content" class="  container-fluid" ></div>
 
     </div>
 

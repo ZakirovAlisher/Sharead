@@ -48,7 +48,7 @@
                                         </div>
 
                                         <div class="col-2" style="margin-top: 3em !important;">
-                                            <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-0.jpg" class="swap"/>
+                                            <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-21.jpg" class="swap"/>
                                         </div>
 
                                         <div class="col-5" >
@@ -79,10 +79,10 @@
                     </div>
                 </div>
 
-                <div th:each="offer : ${offers}" class="exchange">
+                <div th:each="offer : ${offers}" class="exchange" th:styleappend="${offer.isPicked()} ? 'background-color: darkred' : ''">
 
 
-                    <div   class="row"  th:styleappend="${offer.isPicked()} ? 'background-color: darkred' : '' " >
+                    <div   class="row">
 
                         <div class="col-12 user">
                             <div class="block_date" th:text="${offer.getDate()}">
@@ -132,9 +132,9 @@
             <div th:if="${canOffer}" class="mt-4">
 
                 <form method="post" th:action="@{'/postOffer'}">
-                    <button class="btn btn-dark m-3"   >+ SUBMIT +</button> <br>
+                    <textarea rows="3" cols="50" type="text" name="comment"></textarea><br>
+                    <button class="btn btn-success m-3"   >Submit</button>
                     <input type="hidden" name="exchange_id" th:value="${exchange.getId()}">
-                    <textarea type="text" name="comment"></textarea>
                 </form>
                 <div class="exchange  row  m-0" style="">
 
@@ -171,7 +171,7 @@
                     </div>
 
                 </div>
-
+                <br>
             <div class="text-center" style="margin: 0 auto">
                 <h3> Your books:</h3>
             </div>

@@ -1,18 +1,19 @@
 
 <html   xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorate = "layout/loginLayout.html" >
 
-<div layout:fragment="site_content" >
-    <div class="col-6">
+<div layout:fragment="site_content" class="w-100" >
+    <div class="container mt-3" style="background-color: #e9ecef; padding-top: 10px; padding-bottom: 10px; color: black">
 
         <img th:src="@{'/viewbook/'+${book.getCover()}}" class="border border-warning" style="width: 60%;height: 60%;">
 
-
+        <br>
         <form th:action="@{/editBook}" method="post">
             <div class="form-group">
                 <input type="hidden" th:value="${book.getId()}" name="id" id="book_id">
-                Title <input type="text" class="form-control" th:value="${book.getTitle()}"   name="title">
-
-                Author
+                <h5>Title</h5>
+                <input type="text" class="form-control" th:value="${book.getTitle()}"   name="title">
+                <br>
+                <h5>Author</h5>
                 <select  class="form-control" name="author_id">
                     <option th:each="author : ${authors}" th:text="${author.getName()}" th:value="${author.getId()}"
                     th:selected="${book.getAuthor().getId() == author.getId()}"
@@ -28,8 +29,13 @@
 
         <form th:action="@{/editBookCover}" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <input type="hidden" th:value="${book.getId()}" name="id" id="book_id">
-                <input type="file" class="form-control" name="cover">
+                <div class="custom-file">
+                    <input type="hidden" th:value="${book.getId()}" name="id" id="book_id">
+                    <input type="file" class="custom-file-input" id="inputGroupFile01"
+                           aria-describedby="inputGroupFileAddon01" name="cover">
+                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                </div>
+<!--                <input type="file" class="form-control" name="cover">-->
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" >SAVE COVER</button>

@@ -4,7 +4,7 @@
 
 <div layout:fragment="site_content" class="container-fluid libcontainer m-0" >
 
-  <body >
+  <body style="background-color: rgb(79 82 87)">
   <div class="container" style="margin-top: 50px">
     <div class="row">
       <div class="col-md-12">
@@ -15,7 +15,7 @@
 
     </div>
     <div class="row">
-      <div class="col-md-12" style=" text-align: start !important" >
+      <div class="col-md-12" style=" text-align: start !important; background-color: white; padding-top: 20px">
 
         <div class="text-center">
         Chat with  <div class="user__logo">
@@ -41,7 +41,7 @@
             </th>
           </tr>
           </div>
-          <div id="messages" style="height: 300px ; overflow: scroll">
+          <div id="messages" style="height: 300px ; overflow: scroll; margin-top: 10px; background-color: #f0f0f0;">
           <div th:each="msg : ${messages}" class=" ">
 
             <div th:if="${me.equals(msg.getUserOne().getEmail()) && !msg.getContent().contains('Your opponent canceled offer') && !msg.getContent().contains('Your opponent confirms exchange.')}" style="background-color: #b4de62 ; width: 35%" class="ml-auto  p-3 m-2 rounded">
@@ -66,28 +66,29 @@
 
         <div class="col-md-12">
           <div class="form-inline">
-            <div class="">
-              <input type="text" id="private-message" class="" placeholder="Enter your message here...">
+            <div class="form-group" style="width: 93%">
+              <input type="text" id="private-message" class="form-control" style="width:100%" placeholder="Enter your message here...">
               <input type="hidden" id="opponent" th:value="${opponent}" class="" placeholder="Enter your message here...">
               <input type="hidden" id="exchange_id" th:value="${exchangeId}" class="" placeholder="Enter your message here...">
               <input type="hidden" id="me" th:value="${me}" class="" placeholder="Enter your message here...">
             </div>
-            <button id="send-private" class="btn btn-default" type="button">Send</button>
+            <button id="send-private" class="btn btn-info" type="button">Send</button>
           </div>
+        </div><br>
+        <div class="form-inline">
+          <b th:if="${confirmed == true}" class="text-success">You confirmed this exchange, wait your opponent to confirm</b>
+          <form th:if="${confirmed == false}" method="post" th:action="@{'/confirmExchange'}">
+            <button class="btn btn-success m-3"  id="confirm" >CONFIRM EXCHANGE</button> <br>
+            <input type="hidden" name="offer_id" th:value="${offerId}">
+            <input type="hidden" name="exchange_id" th:value="${exchangeId}">
+          </form>
+
+          <form method="post" th:action="@{'/cancelOffer'}">
+            <button class="btn btn-danger  m-3"  id="cancel" >CANCEL OFFER</button> <br>
+            <input type="hidden" name="offer_id" th:value="${offerId}">
+            <input type="hidden" name="exchange_id" th:value="${exchangeId}">
+          </form>
         </div>
-
-        <form method="post" th:action="@{'/cancelOffer'}">
-          <button class="btn btn-danger  m-3"  id="cancel" >CANCEL OFFER</button> <br>
-          <input type="hidden" name="offer_id" th:value="${offerId}">
-          <input type="hidden" name="exchange_id" th:value="${exchangeId}">
-        </form>
-
-        <b th:if="${confirmed == true}" class="text-success">You confirmed this exchange, wait your opponent to confirm</b>
-        <form th:if="${confirmed == false}" method="post" th:action="@{'/confirmExchange'}">
-          <button class="btn btn-success m-3"  id="confirm" >CONFIRM EXCHANGE</button> <br>
-          <input type="hidden" name="offer_id" th:value="${offerId}">
-          <input type="hidden" name="exchange_id" th:value="${exchangeId}">
-        </form>
 
 
 

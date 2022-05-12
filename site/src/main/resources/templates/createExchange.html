@@ -5,17 +5,12 @@
     <div class="text-center exchange mt-4" style="margin: 0 auto">
 
         <form method="post" th:action="@{'/submitExchange'}">
-            <button class="btn btn-dark m-3"   >+ SUBMIT +</button> <br>
-            <textarea type="text" name="comment"></textarea>
-
-
-
+            <textarea rows="3" cols="50" type="text" name="comment"></textarea><br>
+            <button class="btn btn-success m-3"   >Submit</button>
         </form>
 
         <div class="   m-0 " style="margin: 0 auto" >
-
             <div class=" row  m-0">
-
                 <div class="col-5" >
                     <div class="row  m-0" style="">
 <!--                        <div th:each="book : ${currentUserBooks}" class="col-4">-->
@@ -41,7 +36,7 @@
                 </div>
 
                 <div class="col-2" >
-                    <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-0.jpg" class="swap"/>
+                    <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-21.jpg" class="swap"/>
                 </div>
 
                 <div class="col-5" >
@@ -74,10 +69,10 @@
 
         </div>
 
-    </div>
+    </div><br>
     <div class="alert alert-danger m-2" role="alert" th:text="${errorA}" th:if="${errorA}"></div>
     <div class="text-center" style="margin: 0 auto">
-        <h3> Your books:</h3>
+        <h5> Your books:</h5>
     </div>
     <form method="get" th:action="@{'/createExchange#pickUserBooks'}"  class="mt-3" id="pickUserBooks">
         <div class="row pl-4">
@@ -111,10 +106,10 @@
 
 
     </div>
-
+    <br>
 
     <div class="text-center" style="margin: 0 auto">
-        <h3> Pick books that you want:</h3>
+        <h5> Pick books that you want:</h5>
     </div>
     <form method="get" th:action="@{'/createExchange#pickBooks'}"  class="mt-3" id="pickBooks">
         <div class="row pl-4">
@@ -139,13 +134,6 @@
         </div>
     </div>
 
-
-
-
-
-
 </div>
-
-
 
 </html>

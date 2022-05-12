@@ -126,10 +126,10 @@
 
 
             </ul>
-            <form method="get" class="form-inline my-2 my-lg-0">
-                <select name="lng" class="form-control mr-2" onchange="this.form.submit()"><option value="en" th:selected="${#request.getParameter('lng') == 'en'}">ENG</option><option value="ru" th:selected="${#request.getParameter('lng') == 'ru'}">RUS</option><option value="kz" th:selected="${#request.getParameter('lng') == 'kz'}">KAZ</option></select>
+<!--            <form method="get" class="form-inline my-2 my-lg-0">-->
+<!--                <select name="lng" class="form-control mr-2" onchange="this.form.submit()"><option value="en" th:selected="${#request.getParameter('lng') == 'en'}">ENG</option><option value="ru" th:selected="${#request.getParameter('lng') == 'ru'}">RUS</option><option value="kz" th:selected="${#request.getParameter('lng') == 'kz'}">KAZ</option></select>-->
 
-            </form>
+<!--            </form>-->
             <a href="/login" class="btn btn-outline-warning my-2 my-sm-0" style="color: white" sec:authorize="isAnonymous()" th:text="#{label.login}"></a>
             <a href="/register" class="btn btn-outline-warning my-2 my-sm-0" style="color: white" sec:authorize="isAnonymous()" th:text="#{label.reg}"></a>
 
