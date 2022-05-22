@@ -1,7 +1,7 @@
 
 <html   xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorate = "layout/loginLayout.html" >
 
-<div layout:fragment="site_content" class="container-fluid libcontainer m-0" >
+<div layout:fragment="site_content" class=" libcontainer m-0" >
     <div class="text-center">
         <a href="/createExchange" class="btn btn-success m-3">Create exchange</a>
     </div>
@@ -22,7 +22,7 @@
 <!--                        </div>-->
 
 <!--                    </div>-->
-                    <div th:each="book : ${exchange.getUserBooks()}" class="block_exchange_book book1 col-4">
+                    <div th:each="book : ${exchange.getUserBooks()}" class="block_exchange_book book1 col-md-4">
                         <img th:src="@{'/viewuserbook/'+${book.getCover()}}" alt="bookImg">
                         <p th:text="${book.getBook().getTitle()}">Три товарища</p>
                         <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
@@ -34,7 +34,7 @@
             </div>
 
             <div class="col-2" style="margin-top: 3em !important;">
-                <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-21.jpg" class="swap"/>
+                <img src="https://www.pngall.com/wp-content/uploads/9/Exchange-Silhouette-PNG-Image-File.png" class="swap"/>
             </div>
 
             <div class="col-5" >
@@ -49,7 +49,7 @@
 <!--                        </div>-->
 
 <!--                    </div>-->
-                    <div th:each="book : ${exchange.getBooks()}" class="block_exchange_book book1 col-4">
+                    <div th:each="book : ${exchange.getBooks()}" class="block_exchange_book book1 col-md-4 ">
                         <img th:src="@{'/viewbookex/'+${book.getCover()}}" alt="bookImg">
                         <p th:text="${book.getTitle()}">Три товарища</p>
                         <p th:text="${book.getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
@@ -74,7 +74,7 @@
                         <!--                        </div>-->
 
                         <!--                    </div>-->
-                        <div th:each="book : ${exchange.getUserBooks()}" class="block_exchange_book book1 col-4">
+                        <div th:each="book : ${exchange.getUserBooks()}" class="block_exchange_book book1 col-md-4">
                             <img th:src="@{'/viewuserbook/'+${book.getCover()}}" alt="bookImg">
                             <p th:text="${book.getBook().getTitle()}">Три товарища</p>
                             <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="col-2" style="margin-top: 3em !important;">
-                    <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-21.jpg" class="swap"/>
+                    <img src="https://www.pngall.com/wp-content/uploads/9/Exchange-Silhouette-PNG-Image-File.png" class="swap"/>
                 </div>
 
                 <div class="col-5" >
@@ -101,7 +101,7 @@
                         <!--                        </div>-->
 
                         <!--                    </div>-->
-                        <div th:each="book : ${exchange.getBooks()}" class="block_exchange_book book1 col-4">
+                        <div th:each="book : ${exchange.getBooks()}" class="block_exchange_book book1 col-md-4">
                             <img th:src="@{'/viewbookex/'+${book.getCover()}}" alt="bookImg">
                             <p th:text="${book.getTitle()}">Три товарища</p>
                             <p th:text="${book.getAuthor().getName()}" class="font-italic">Э. Ремарк</p>

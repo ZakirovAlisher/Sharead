@@ -23,8 +23,12 @@
     </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light  " style="background-color: var(--secondary_col); color: white; padding-top: 10px !important;">
-        <a class="navbar-brand ml-5" href="/" style="color: white"><img src="https://avatars.mds.yandex.net/get-adv/135342/2a0000016c909ced8d6107c4dab9897eea51/orig" style="width: 40px;height: 40px"><b> ShaRead</b></a>
+    <nav class="navbar navbar-expand-lg navbar-light  nav-mobile" style="background-color: var(--secondary_col); color: white;">
+        <a class="navbar-brand ml-5" href="/" style="color: white">
+            <div style="background-color: #777777; border: black 5px solid" class="p-2">
+            <img src="https://s1.hostingkartinok.com/uploads/images/2022/05/b16dbd72179f4b70d0672edf1f51739e.png" style="width: 185px;height: 70px">
+            </div>
+            <b> </b></a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -58,7 +62,7 @@
         </div>
     </nav>
     <form th:action="@{'/logout'}" method="post" id="logoutForm" sec:authorize="isAuthenticated()"></form>
-    <div class="m-0 text-center container-fluid" style="margin: 0 auto">
+    <div class="m-0 text-center " style="margin: 0 auto">
 
     <div layout:fragment="site_content" class="  container-fluid" ></div>
 

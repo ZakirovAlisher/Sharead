@@ -22,11 +22,11 @@
 <!--                            </div>-->
 
 <!--                        </div>-->
-                        <div th:each="book : ${currentUserBooks}" class="block_exchange_book book1 col-4">
+                        <div th:each="book : ${currentUserBooks}" class="block_exchange_book book1 col-md-4">
                             <a th:href="@{'/removebookfromexchange?id='+${book.getId()} + '&type=userBook'}">
                             <img th:src="@{'/viewuserbook/'+${book.getCover()}}" alt="bookImg">
-                            <p th:text="${book.getBook().getTitle()}">Три товарища</p>
-                            <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
+<!--                            <p th:text="${book.getBook().getTitle()}">Три товарища</p>-->
+<!--                            <p th:text="${book.getBook().getAuthor().getName()}" class="font-italic">Э. Ремарк</p>-->
                             </a>
                         </div>
 
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="col-2" >
-                    <img src="https://icon-library.com/images/swap-icon-png/swap-icon-png-21.jpg" class="swap"/>
+                    <img src="https://www.pngall.com/wp-content/uploads/9/Exchange-Silhouette-PNG-Image-File.png" class="swap"/>
                 </div>
 
                 <div class="col-5" >
@@ -51,11 +51,11 @@
 <!--                            </div>-->
 
 <!--                        </div>-->
-                        <div th:each="book : ${currentBooks}" class="block_exchange_book book1 col-4">
+                        <div th:each="book : ${currentBooks}" class="block_exchange_book book1 col-md-4">
                             <a th:href="@{'/removebookfromexchange?id='+${book.getId()} + '&type=book'}">
                             <img th:src="@{'/viewbookex/'+${book.getCover()}}" alt="bookImg">
-                            <p th:text="${book.getTitle()}">Три товарища</p>
-                            <p th:text="${book.getAuthor().getName()}" class="font-italic">Э. Ремарк</p>
+<!--                            <p th:text="${book.getTitle()}">Три товарища</p>-->
+<!--                            <p th:text="${book.getAuthor().getName()}" class="font-italic">Э. Ремарк</p>-->
                             </a>
                         </div>
 
@@ -75,13 +75,13 @@
         <h5> Your books:</h5>
     </div>
     <form method="get" th:action="@{'/createExchange#pickUserBooks'}"  class="mt-3" id="pickUserBooks">
-        <div class="row pl-4">
-            <input type="text" class="form-control col-11 shadow " name="searchUserStr" >
-            <button class="btn btn-info col-1 shadow"style="position: relative; right: 20px" >Search</button>
+        <div class="row pl-4 m-0">
+            <input type="text" class="form-control col-9 shadow " name="searchUserStr" >
+            <button class="btn btn-info col-3 shadow"style="position: relative; right: 20px" >Search</button>
         </div>
     </form>
     <div class=" row m-0">
-        <div th:each="book : ${userBooks}" class="block_exchange_book book1 col-2">
+        <div th:each="book : ${userBooks}" class="block_exchange_book book1 col-md-2 col-4">
             <div class="exchange">
                 <img th:src="@{'/viewuserbook/'+${book.getCover()}}" class=" " alt="...">
                 <div class=" ">
@@ -112,13 +112,13 @@
         <h5> Pick books that you want:</h5>
     </div>
     <form method="get" th:action="@{'/createExchange#pickBooks'}"  class="mt-3" id="pickBooks">
-        <div class="row pl-4">
-            <input type="text" class="form-control col-11 shadow " name="searchStr" >
-            <button class="btn btn-info col-1 shadow"style="position: relative; right: 20px" >Search</button>
+        <div class="row pl-4 m-0">
+            <input type="text" class="form-control col-9 shadow " name="searchStr" >
+            <button class="btn btn-info  col-3 shadow"style="position: relative; right: 20px" >Search</button>
         </div>
     </form>
     <div class="container-fluid row m-0" style=" ">
-        <div th:each="book : ${books}" class="block_exchange_book book1 col-2">
+        <div th:each="book : ${books}" class="block_exchange_book book1 col-md-2 col-4">
             <div class="exchange">
                 <img th:src="@{'/viewbookex/'+${book.getCover()}}" class=" " alt="...">
                 <div class="  ">
