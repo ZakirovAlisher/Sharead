@@ -1,20 +1,7 @@
 package com.example.site.controller;
 
-import com.example.site.domain.Authors;
-import com.example.site.domain.Books;
-import com.example.site.domain.Exchanges;
-import com.example.site.domain.Genres;
-import com.example.site.domain.Offers;
-import com.example.site.domain.UserBooks;
-import com.example.site.domain.Users;
-import com.example.site.service.AuthorService;
-import com.example.site.service.BookService;
-import com.example.site.service.ExchangeService;
-import com.example.site.service.GenreService;
-import com.example.site.service.OfferService;
-import com.example.site.service.SendEmailService;
-import com.example.site.service.UserBookService;
-import com.example.site.service.UserService;
+import com.example.site.domain.*;
+import com.example.site.service.*;
 import com.example.site.util.ExchangeStatus;
 import com.example.site.util.ExchangeWebRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -59,6 +47,9 @@ public class ExchangeController {
     @Autowired
     private UserBookService userBookService;
 
+    @Autowired
+    private ViewHistoryService viewHistoryService;
+
     @Value("${file.book.viewPath}")
     private String viewPath;
 
@@ -70,6 +61,12 @@ public class ExchangeController {
 
     @GetMapping(value = "/")
     public String exchanges(Model model){
+        List<ViewHistory> allViewHistories = viewHistoryService.getAllViewHistories();
+        List<Books> userPreferredBooks = new ArrayList<>();
+        for (ViewHistory v:
+             allViewHistories) {
+        }
+
         model.addAttribute("currentUser", getUserData());
 
         model.addAttribute("exchangesOpen",
@@ -81,7 +78,7 @@ public class ExchangeController {
     }
 
     @GetMapping(value = "/exchangeDetails/{id}")
-    public String exchangeDetails(Model m ,@PathVariable(name = "id") Long id,
+    public String exchangeDetails(Model m , @PathVariable(name = "id") Long id,
                                   @RequestParam(name="searchUserStr",required = false) String searchUserStr){
         List<UserBooks> userBooks = new ArrayList<>();
 
@@ -96,6 +93,19 @@ public class ExchangeController {
 
 
         Exchanges exchange = this.exchangeService.getExchange(id);
+
+        for (UserBooks b:
+             exchange.getUserBooks()) {
+            ViewHistory viewHistory = viewHistoryService.getViewHistoriesByUserAndBook(getUserData(), b.getBook());
+            if(viewHistory != null){
+                viewHistory.setCounter(viewHistory.getCounter()+1);
+                viewHistoryService.saveViewHistory(viewHistory);
+            }
+            else{
+                viewHistoryService.addViewHistory(new ViewHistory(null, getUserData(), b.getBook(), 1));
+            }
+        }
+
 
         for (Long bookId:this.exchangeWebRequest.getOfferBooks()) {
             UserBooks userBook = this.userBookService.getBook(bookId);
