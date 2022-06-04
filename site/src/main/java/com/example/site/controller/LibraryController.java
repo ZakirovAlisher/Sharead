@@ -41,6 +41,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -74,11 +75,18 @@ public class LibraryController {
 
         return "library";
     }
-    
+    @GetMapping(value = "/librarySuccess")
+    public String index2(Model model, RedirectAttributes redirAttrs) {
+        redirAttrs.addFlashAttribute("successA", "Book successfully added");
+
+        return "redirect:/library";
+    }
     @PostMapping(value = "/addBookToLibrary")
     @PreAuthorize("isAuthenticated()")
     public String addBookToLibrary(
             @RequestParam(name = "cover") MultipartFile file,
+            @RequestParam(name = "isIsbn") boolean isIsbn,
+            @RequestParam(name = "userBookId", defaultValue = "0") Long userBookId,
             RedirectAttributes redirAttrs) {
 
         if (file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png")) {
@@ -88,14 +96,13 @@ public class LibraryController {
                 byte[] bytes = file.getBytes();
                 String imageString = Base64.getEncoder().encodeToString(bytes);
 
-
-                String userBookText = this.resolveText(imageString);
-
                 List<Books> books = this.bookService.getAllBooks();
+                String userBookText = this.resolveText(imageString);
+                if (!isIsbn){
 
-                Books potentialBook = resolvePotentialBook(userBookText, books);
+                    Books potentialBook = resolvePotentialBook(userBookText, books);
 
-                String picName = DigestUtils.sha1Hex("userBook_" + potentialBook.getTitle() + currentUser.getFullName() + userBookText +  "_!Picture");
+                String picName = DigestUtils.sha1Hex("userBook_" + potentialBook.getTitle() + currentUser.getFullName() + userBookText +  "_!Picture" + new Date().toString());
 
                 Path path = Paths.get(uploadPath + picName + ".jpg");
                 Files.write(path, bytes);
@@ -105,9 +112,33 @@ public class LibraryController {
                 userBook.setUser(currentUser);
                 userBook.setCover(picName);
                 this.userBookService.addBook(userBook);
-                redirAttrs.addFlashAttribute("successA", "Book successfully added");
 
-                return "redirect:/library?success";
+                    return "redirect:/addBookToLibraryConfirm?userBookId="+userBook.getId();
+                }
+                else {
+
+
+                    UserBooks oldUserBook = userBookService.getBook(userBookId);
+
+                    Books isbnBook = resolveBookByIsbn(userBookText, books);
+                       if (isbnBook == null){
+                           oldUserBook.setRemoved(true);
+                           redirAttrs.addFlashAttribute("errorA", "Can't find book by that ISBN");
+
+                           this.userBookService.saveBook(oldUserBook);
+                           return "redirect:/library";
+                       }
+
+                   oldUserBook.setBook(isbnBook);
+
+                    this.userBookService.saveBook(oldUserBook);
+                    redirAttrs.addFlashAttribute("successA", "Book successfully added");
+                    return "redirect:/library";
+                }
+
+
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -117,6 +148,34 @@ public class LibraryController {
         return "redirect:/library";
     }
 
+    private Books resolveBookByIsbn(
+            final String userBookText,
+            final List<Books> books) {
+        Books potentialBook = null;
+        for (Books book: books) {
+            if (book.getISBN() == null){
+                continue;
+            }
+            String bookText = book.getISBN();
+
+            if(userBookText.contains(bookText)){
+                potentialBook = book;
+                return potentialBook;
+            }
+
+        }
+
+        return potentialBook;
+    }
+
+    @GetMapping(value = "/addBookToLibraryConfirm")
+    @PreAuthorize("isAuthenticated()")
+    public String addBookToLibraryConfirm(
+            @RequestParam(name = "userBookId") Long userBookId,
+            Model model) {
+            model.addAttribute("book", userBookService.getBook(userBookId));
+        return "addBookConfirm";
+    }
     private Books resolvePotentialBook(
             final String userBookText,
             final List<Books> books) {

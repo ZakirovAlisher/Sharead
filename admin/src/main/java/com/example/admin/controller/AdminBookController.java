@@ -98,19 +98,19 @@ public class AdminBookController {
     public String addBook(
             @RequestParam(name = "title") String name,
             @RequestParam(name = "author_id", defaultValue = "0") Long id,
+            @RequestParam(name = "isbn") String isbn,
             @RequestParam(name = "cover") MultipartFile file) {
         Authors br = authorService.getAuthor(id);
 
         if (br != null) {
             if (file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png")) {
-
                 try {
                     String picName = DigestUtils.sha1Hex("book_" + name + "_!Picture");
                     byte[] bytes = file.getBytes();
                     Path path = Paths.get(uploadPath + picName + ".jpg");
                     Files.write(path, bytes);
 
-                    bookService.addBook(new Books(null, name, picName, br, null));
+                    bookService.addBook(new Books(null, name, picName, br, null, isbn));
                     return "redirect:/admin";
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -127,6 +127,7 @@ public class AdminBookController {
             @RequestParam(name = "id") Long id,
             @RequestParam(name = "title") String name,
             @RequestParam(name = "author_id") Long authorId,
+            @RequestParam(name = "isbn") String isbn,
             @RequestParam(name = "del", defaultValue = "0") int del) {
 
         if (del == 1) {
@@ -137,7 +138,7 @@ public class AdminBookController {
             Books i = bookService.getBook(id);
             i.setTitle(name);
             i.setAuthor(authorService.getAuthor(authorId));
-
+            i.setISBN(isbn);
             bookService.saveBook(i);
 
             return "redirect:/book_details/ " + i.getId();

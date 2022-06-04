@@ -20,6 +20,10 @@
                     ></option>
 
                 </select>
+                <h5>ISBN</h5>
+                <input type="text" class="form-control" th:value="${book.getISBN() != null ? book.getISBN() : ''}"   name="isbn">
+                <br>
+
             </div>
             <div class="modal-footer">
                 <button type="submit" name="del" value="1" class="btn btn-danger" >DELETE</button>

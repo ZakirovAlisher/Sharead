@@ -37,4 +37,7 @@ public class Books {
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Genres> genres;
+
+    @Column(name = "isbn", nullable = true)
+    private String ISBN;
 }

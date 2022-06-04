@@ -21,7 +21,14 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
         <title>Sharead</title>
     </head>
+    <script>
+        function editUserBook(o) {
+            console.log(o);
+            document.getElementById("editUserBook").value = o;
 
+
+        }
+    </script>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light  nav-mobile" style="background-color: var(--secondary_col); color: white;">
         <a class="navbar-brand ml-5" href="/" style="color: white">
@@ -79,7 +86,7 @@
                         <div class="form-group">
                             Please make photo of your book cover.
                             <input type="file" class="form-control" name="cover">
-
+                            <input type="hidden" name="isIsbn" value="false">
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" style="background-color: rgba(46,86,80,1);">Submit</button>
@@ -88,6 +95,23 @@
                 </div>
             </div></div>
     </div>
-
+    <div class="modal fade" id="addBook2" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form th:action="@{/addBookToLibrary}" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            Please make photo of your book cover.
+                            <input type="file" class="form-control" name="cover">
+                            <input type="hidden" name="isIsbn" value="true">
+                            <input id="editUserBook" type="hidden"  name="userBookId" >
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" style="background-color: rgba(46,86,80,1);">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div></div>
+    </div>
 </body>
 </html>

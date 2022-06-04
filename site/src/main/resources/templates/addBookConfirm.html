@@ -1,0 +1,38 @@
+
+<html   xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorate = "layout/loginLayout.html" >
+<script>
+    function editUserBook(o) {
+        console.log(o);
+        document.getElementById("editUserBook").value = o;
+
+
+    }
+</script>
+<div layout:fragment="site_content" class="container-fluid libcontainer m-0" >
+    <div class="text-center">
+        Is it book correctly recognized?
+        <a class="btn btn-success" th:href="@{'/librarySuccess'}">Yes</a>
+    <button class="btn btn-info m-3"
+            th:onclick="editUserBook([[${book.getId()}]])"
+            data-toggle="modal" data-target="#addBook2" >No, add book by ISBN</button>
+    </div>
+
+    <div class="row m-0 text-center">
+
+        <div class="col-12" style="">
+            <div class="card cardlib exchange" style="margin: 0 auto !important; background-color: var(--secondary_col)">
+                <img th:src="@{'/viewuserbook/'+${book.getCover()}}" class="card-img-top libimg" alt="...">
+                <div class="card-body exchange">
+                    <h5 class="card-title m-0" style="font-size: 20px" th:text="${book.getBook().getTitle()}">Harry Potter и принц персии</h5>
+                    <p class="card-text m-0 italic" style="font-size: 20px" th:text="${book.getBook().getAuthor().getName()}">Some quick example </p>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+</html>
