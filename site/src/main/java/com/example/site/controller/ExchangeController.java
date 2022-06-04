@@ -2,6 +2,7 @@ package com.example.site.controller;
 
 import com.example.site.domain.*;
 import com.example.site.service.*;
+import com.example.site.util.BooksCounterDTO;
 import com.example.site.util.ExchangeStatus;
 import com.example.site.util.ExchangeWebRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class ExchangeController {
@@ -61,20 +70,60 @@ public class ExchangeController {
 
     @GetMapping(value = "/")
     public String exchanges(Model model){
-        List<ViewHistory> allViewHistories = viewHistoryService.getAllViewHistories();
-        List<Books> userPreferredBooks = new ArrayList<>();
-        for (ViewHistory v:
-             allViewHistories) {
+
+        Set<Books> userPreferredBooks = new HashSet<>();
+
+        List<Exchanges> openedExchanges = this.exchangeService.getExchangesByStatus(ExchangeStatus.OPENED);
+
+        Map<Exchanges, Integer> recommendedExchanges = new HashMap<>();
+
+        for (ViewHistory v2: Objects.requireNonNull(getUserData()).getViewHistories()) {
+                userPreferredBooks.add(v2.getBook());
+            }
+        List<Users> usersWithSameViews =  viewHistoryService.getUsersWithSameViews(getUserData(), userPreferredBooks);
+
+        List<BooksCounterDTO> othersPrefferedBooks = viewHistoryService.getOthersPrefferedBooks(usersWithSameViews , userPreferredBooks);
+        Map<Long, Integer> othersPrefferedBooksMap = othersPrefferedBooks.stream().collect(
+                Collectors.toMap(BooksCounterDTO::getBook_id, BooksCounterDTO::getCounter));
+        for (Exchanges e: openedExchanges) {
+            Integer exchangeCounter = 0;
+            for (UserBooks ub: e.getUserBooks()) {
+                Books book = ub.getBook();
+                Integer counter = othersPrefferedBooksMap.get(book.getId());
+                if (counter != null){
+                    exchangeCounter += counter;
+                }
+            }
+            recommendedExchanges.put(e, exchangeCounter);
+        }
+        recommendedExchanges = MapUtil.sortByValue(recommendedExchanges);
+
+        System.out.println("DEBUG");
+        for (Map.Entry <Exchanges, Integer> e: recommendedExchanges.entrySet()
+             ) {
+            System.out.println(e.getValue());
         }
 
         model.addAttribute("currentUser", getUserData());
-
-        model.addAttribute("exchangesOpen",
-                           this.exchangeService.getExchangesByStatus(ExchangeStatus.OPENED));
+        model.addAttribute("exchangesOpen", recommendedExchanges.keySet());
         model.addAttribute("exchangesFreeze",
                            this.exchangeService.getExchangesByStatus(ExchangeStatus.FREEZED));
 
         return "exchanges";
+    }
+
+    public class MapUtil {
+        public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+            List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
+            list.sort(Map.Entry.comparingByValue());
+            Collections.reverse(list);
+            Map<K, V> result = new LinkedHashMap<>();
+            for (Map.Entry<K, V> entry : list) {
+                result.put(entry.getKey(), entry.getValue());
+            }
+
+            return result;
+        }
     }
 
     @GetMapping(value = "/exchangeDetails/{id}")

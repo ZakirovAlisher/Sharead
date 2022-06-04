@@ -124,7 +124,7 @@ public class AuthUserController {
             r.add(userService.getRole(1L));
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-            userService.addUser(new Users(null, email, passwordEncoder.encode(pass), name, null, r));
+            userService.addUser(new Users(null, email, passwordEncoder.encode(pass), name, null, r, null));
 
             redirAttrs.addFlashAttribute("success", "Successfully registred");
 
